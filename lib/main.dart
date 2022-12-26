@@ -10,12 +10,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await LocalStorage.init();
   runApp( const CrazyApp(),);
 }
@@ -63,9 +61,7 @@ class _CrazyAppState extends State<CrazyApp> {
               fallbackLocale: const Locale('en'),
               title: 'Crazy Food',
               theme: ThemeData(primarySwatch: Colors.green,platform: TargetPlatform.iOS),
-              home:
-               model != null ? HomeView() :
-               LoginScreenView()
+              home: HomeView()
           ),
       ),
 
