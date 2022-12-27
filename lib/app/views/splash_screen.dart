@@ -12,7 +12,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 10), () {
+    Timer(const Duration(seconds: 5), () {
       // Get.off(() => LocalStorage.isLoggedIn ? const HomeScreen() : const AuthScreen());
       Get.off(()=>HomeView());
     });
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/icon2.png',),
+                  image: AssetImage('assets/images/free_icon.png',),
                 ),
               ),
             ),
