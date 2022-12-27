@@ -127,7 +127,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             fontSize: 15,
             color: widget.hintColor ?? const Color(0xFF929292),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           alignLabelWithHint: true,
           prefixIcon: widget.prefixIcon != null
               ? Icon(
