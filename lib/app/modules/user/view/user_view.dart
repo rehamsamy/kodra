@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kodra/app/core/values/localization/ar.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
 import 'package:get/get.dart';
 import 'package:kodra/app/shared/app_cached_image.dart';
 import 'package:kodra/app/shared/app_text.dart';
 import 'package:kodra/app/shared/app_text_field.dart';
 import 'package:kodra/app_constant.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
@@ -48,8 +46,6 @@ class _UserViewState extends State<UserView> {
 
    @override
   Widget build(BuildContext context) {
-    double width = Get.width;
-    double height = Get.height;
     return Scaffold(
       appBar: AppBar(
         title: const AppText(
@@ -74,19 +70,19 @@ class _UserViewState extends State<UserView> {
       ),
       body: Column(
         children: [
-          Expanded(
+          const Expanded(
               flex: 4,
-              child: Container(
-                color: Colors.white,
-                child:const AppCashedImage(
+              child: SizedBox(
+                width:250,
+                child: AppCashedImage(
                   imageUrl:
-                      'https://tse1.mm.bing.net/th?id=OIP.dDHcQ1SdEMWt89-69_pH8AHaEx&pid=Api&P=0',
-                  fit: BoxFit.contain,
+                      'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
+                  fit: BoxFit.fill,
                 ),
               )),
           Expanded(
               child: Container(
-                color: Colors.grey,
+                color: kGreyColor,
                 child: Row(
                   children: [
                     IconButton(onPressed:startListening

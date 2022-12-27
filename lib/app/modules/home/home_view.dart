@@ -38,12 +38,37 @@ class _HomeViewState extends State<HomeView> {
           reverse: true,
           child: Column(
             children: [
-              Image.asset(
-                'assets/images/icon3.png',
-                width: 300,
-                height: 300,
-                fit: BoxFit.cover,
+              Align(
+                alignment: Alignment.center,
+                child: Card(
+                  elevation: 20,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration:  BoxDecoration(
+                      gradient:const LinearGradient(
+                        colors: [
+                          kPurpleColor,
+                          kUnSelectedColor
+                        ]
+                      ),
+
+                    ),
+                    child:
+                    Image.asset(
+                      'assets/images/free_icon.png',
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
+              SizedBox(height: 50,),
               Card(
                 elevation: 20,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
