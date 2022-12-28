@@ -7,7 +7,6 @@ import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:kodra/app/shared/app_text.dart';
 import 'package:kodra/app_constant.dart';
 import 'package:get/get.dart';
-
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
   @override

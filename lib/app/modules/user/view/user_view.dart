@@ -14,7 +14,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 class UserView extends StatefulWidget{
-   UserView({Key? key}) : super(key: key);
+   const UserView({Key? key}) : super(key: key);
 
   @override
   State<UserView> createState() => _UserViewState();

@@ -8,6 +8,8 @@ import 'package:kodra/app_constant.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_to_speech/text_to_speech.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 class DisabilityView extends StatefulWidget {
   const DisabilityView({Key? key}) : super(key: key);
@@ -16,9 +18,12 @@ class DisabilityView extends StatefulWidget {
   State<DisabilityView> createState() => _DisabilityViewState();
 }
 
+
 class _DisabilityViewState extends State<DisabilityView> {
+  FirebaseStorage _storage = FirebaseStorage.instance;
   File? imageFile = null;
   File? cameraFile;
+  String? _uploadedFileURL;
   TextToSpeech tts = TextToSpeech();
   String text = 'hello';
   double volume = 1; // Range: 0-1
@@ -85,10 +90,13 @@ class _DisabilityViewState extends State<DisabilityView> {
                           size: 40,
                           color: kPurpleColor,
                         )),
-                    const Icon(
-                      Icons.perm_identity,
-                      size: 40,
-                      color: Colors.black,
+                    IconButton(
+                      onPressed: uploadFile,
+                      icon: const Icon(
+                        Icons.perm_identity,
+                        size: 40,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -137,6 +145,7 @@ class _DisabilityViewState extends State<DisabilityView> {
     );
     setState(() {
       imageFile = File(pickedFile!.path);
+
     });
     Navigator.pop(context);
   }
@@ -149,6 +158,36 @@ class _DisabilityViewState extends State<DisabilityView> {
       imageFile = File(pickedFile!.path);
     });
     Navigator.pop(context);
+  }
+
+
+  Future uploadFile() async {
+    try {
+      final storageReference = FirebaseStorage.instance
+          .ref().child('images')
+          .child('${(imageFile?.path)}');
+      final uploadTask = storageReference.putFile(imageFile!);
+      print('File Uploaded1' + imageFile.toString());
+      final snapshat = await uploadTask.whenComplete(() => null);
+    }catch(err){
+      print('vvvvv  '+err.toString());
+    }
+   //  print('File Uploaded');
+   //  storageReference.getDownloadURL().then((fileURL) {
+   //    setState(() {
+   //      _uploadedFileURL = fileURL;
+   //    });
+   //  });
+
+    // StorageReference storageReference = FirebaseStorage.instance
+    //     .ref()
+    //     .child('posts/$id/${basename(_image.path)}');
+    // StorageUploadTask uploadTask = storageReference.putFile(File(_image.path));
+    // await uploadTask.onComplete;
+    //
+    // // newImg.add(await storageReference.getDownloadURL());
+    // //  print('#############   ${newImg.length}');
+    // return await storageReference.getDownloadURL();
   }
 
   Future<void> _showChoiceDialog(BuildContext context) {
