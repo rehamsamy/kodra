@@ -88,6 +88,7 @@ dependencies:
   flutter_tts: ^3.5.1
   firebase_core: ^2.4.0
   firebase_database: ^10.0.8
+  progress_indicators: ^1.0.0
 
 
 

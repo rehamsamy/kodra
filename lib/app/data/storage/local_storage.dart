@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:kodra/app/data/models/login_model.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 
@@ -30,20 +29,20 @@ class LocalStorage {
 
   static bool isLoggedIn = getBool(loginKey);
 
-  static LoginModel? getUser = getString(userModel) != null
-      ? LoginModel.fromJson(jsonDecode(
-          getString(userModel) ?? '{}',
-        ))
-      : null;
+  // static LoginModel? getUser = getString(userModel) != null
+  //     ? LoginModel.fromJson(jsonDecode(
+  //         getString(userModel) ?? '{}',
+  //       ))
+  //     : null;
 
-  static Future<void> saveUser(LoginModel model) async {
-    await setBool(loginKey, true);
-    await setString(userModel, jsonEncode(model.toJson()));
-    await setString('model', jsonEncode(model.toJson()));
-    await setString('name', model.name??'');
-    await setString('name', model.name??'');
-    Get.log('user ${ getString(userModel).toString()} saved to local storage');
-  }
+  // static Future<void> saveUser(LoginModel model) async {
+  //   await setBool(loginKey, true);
+  //   await setString(userModel, jsonEncode(model.toJson()));
+  //   await setString('model', jsonEncode(model.toJson()));
+  //   await setString('name', model.name??'');
+  //   await setString('name', model.name??'');
+  //   Get.log('user ${ getString(userModel).toString()} saved to local storage');
+  // }
 
   /// ===========================================================
   static Future setString(String key, String value) async {

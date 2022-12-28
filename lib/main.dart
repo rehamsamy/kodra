@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:kodra/app/modules/user/view/user_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,11 +58,14 @@ class _CrazyAppState extends State<CrazyApp> {
                 title: 'Crazy Food',
                 theme: ThemeData(
                     primarySwatch: Colors.green, platform: TargetPlatform.iOS),
-                home: const SplashScreen()
+                home:  UserView()
             ),
           ),
 
     );
   }
+
+
+
 
 }

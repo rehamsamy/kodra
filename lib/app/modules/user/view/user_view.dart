@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:kodra/app/data/models/word_model.dart';
+import 'package:kodra/app/data/remote_data_source/word_to_image_api.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
 import 'package:get/get.dart';
 import 'package:kodra/app/shared/app_cached_image.dart';
@@ -11,6 +11,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class UserView extends StatefulWidget{
    UserView({Key? key}) : super(key: key);
@@ -20,27 +21,28 @@ class UserView extends StatefulWidget{
 }
 
 class _UserViewState extends State<UserView> {
-  TextEditingController wordController=TextEditingController();
+  TextEditingController wordController = TextEditingController();
   final fb = FirebaseDatabase.instance;
   String ? imageUrl;
-   bool _hasSpeech = false;
+  bool _hasSpeech = false;
 
-   String lastWords = "";
+  String lastWords = "";
 
-   String lastError = "";
+  String lastError = "";
 
-   String lastStatus = "";
+  String lastStatus = "";
+bool isLoading=false;
+  final SpeechToText speech = SpeechToText();
 
-   final SpeechToText speech = SpeechToText();
-
-   @override
-   void initState() {
-     super.initState();
-     initSpeechState();
-   }
+  @override
+  void initState() {
+    super.initState();
+    initSpeechState();
+  }
 
   Future<void> initSpeechState() async {
-    bool hasSpeech = await speech.initialize(onError: errorListener, onStatus: statusListener );
+    bool hasSpeech = await speech.initialize(
+        onError: errorListener, onStatus: statusListener);
 
     if (!mounted) return;
     setState(() {
@@ -48,9 +50,9 @@ class _UserViewState extends State<UserView> {
     });
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
-     final ref = fb.reference();
+    final ref = fb.reference();
     return Scaffold(
       appBar: AppBar(
         title: const AppText(
@@ -64,7 +66,7 @@ class _UserViewState extends State<UserView> {
         actions: [
           IconButton(
               onPressed: () {
-                Get.off(()=>const HomeView());
+                Get.off(() => const HomeView());
               },
               icon: const Icon(
                 Icons.home,
@@ -75,12 +77,20 @@ class _UserViewState extends State<UserView> {
       ),
       body: Column(
         children: [
-           Expanded(
+          Expanded(
               flex: 4,
               child: SizedBox(
-                width:250,
-                child: AppCashedImage(
-                  imageUrl:imageUrl ??'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
+                width: 250,
+                child:
+                    isLoading?
+                    Center(child:   JumpingDotsProgressIndicator(
+                      fontSize: 60.0,
+                      numberOfDots: 4,
+                    ),)
+                        :
+                AppCashedImage(
+                  imageUrl: imageUrl ??
+                      'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
                   fit: BoxFit.fill,
                 ),
               )),
@@ -89,8 +99,10 @@ class _UserViewState extends State<UserView> {
                 color: kGreyColor,
                 child: Row(
                   children: [
-                    IconButton(onPressed:startListening
-                    , icon: const Icon(Icons.keyboard_voice,size: 35,color: kPurpleColor,)),
+                    IconButton(onPressed: startListening
+                        ,
+                        icon: const Icon(Icons.keyboard_voice, size: 35,
+                          color: kPurpleColor,)),
                     Expanded(
                       child: CustomTextFormField(
                         backgroundColor: Colors.grey,
@@ -104,56 +116,42 @@ class _UserViewState extends State<UserView> {
                         hintText: 'اكتب هنا',
                       ),
                     ),
-                       IconButton(icon:  Icon(Icons.perm_identity,size: 35,color:Colors.black,),onPressed: () {
-                         ref.child('wordToImage').set(
-                             {
-                               'isChange': true,
-                               'word': wordController.text,
-                               'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
-                             }).then((value) {
-                           //   ref.child("wordToImage").once().then(( DatabaseEvent data) async {
-                           //     print(data.value);
-                           //     print(data.key);
-                           //     setState(() {
-                           //       retrievedName = data.value;
-                           //     });
-                           //   });
-                           // });
+                    IconButton(
+                      icon: const Icon(
+                        Icons.perm_identity, size: 35, color: Colors.black,),
+                      onPressed: () {
+                        ref.child('wordToImage').set(
+                            {
+                              'isChange': true,
+                              'word': wordController.text,
+                              'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
+                            });
+                          setState(() {
+                            isLoading=true;
+                          });
+                          Future.delayed(const Duration(seconds: 5)).then((value) {
+                            FirebaseDatabase.instance.reference().child(
+                                "wordToImage").once().then((
+                                DatabaseEvent snapshot) {
+                              WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
+                              setState(() {
+                                isLoading=false;
+                                imageUrl=model.imageUrl;
+                              });
 
-                           // ref.child('wordToImage').onChildChanged.listen((event) {
-                           //   print(event.type);
-                           // });
+                            });
+                          });
 
-
-                           // ref.once().then((DataSnapshot snapshot){
-                           //   Map<dynamic, dynamic> values = snapshot.value;
-                           //   values.forEach((key,values) {
-                           //     print(values["name"]);
-                           //   });
-                           // });
-                           ref.child('wordToImage').once().then((value) {
-                           var x=  value.snapshot.value as Map<String,dynamic>;
-                           String xx=x!['imageUrl'] as String;
-                             print('val   ===> '+xx);
-                           });
-                           //     .onValue
-                           //     .listen((event) {
-                           //    Map<String,dynamic> x=event.snapshot.value as Map<String,dynamic>;
-                           //   setState(() {
-                           //     // imageUrl= event.snapshot.children;
-                           //   });
-                           //   print('val   ===> ${event.snapshot.val(
-                           //       'imageUrl')}');
-                           // });
-                         },);
-                       })],
+                      },
+                    )
+                  ],
                 ),
               )),
           Expanded(
               flex: 3,
               child: Container(
                 color: kBackgroundDarkColor,
-              child:  Center(
+                child: Center(
                   child: Text(lastWords),
                 ),
               )),
@@ -163,27 +161,26 @@ class _UserViewState extends State<UserView> {
   }
 
 
-
-  void startListening() async{
+  void startListening() async {
     lastWords = "";
     lastError = "";
     // var locales = await speech.locales();
     // var selectedLocale = locales[LocaleName.];
-    speech.listen(onResult: resultListener,localeId:'ar');
+    speech.listen(onResult: resultListener, localeId: 'ar');
     setState(() {
 
     });
   }
 
   void stopListening() {
-    speech.stop( );
+    speech.stop();
     setState(() {
 
     });
   }
 
   void cancelListening() {
-    speech.cancel( );
+    speech.cancel();
     setState(() {
 
     });
@@ -195,14 +192,35 @@ class _UserViewState extends State<UserView> {
     });
   }
 
-  void errorListener(SpeechRecognitionError error ) {
+  void errorListener(SpeechRecognitionError error) {
     setState(() {
       lastError = "${error.errorMsg} - ${error.permanent}";
     });
   }
-  void statusListener(String status ) {
+
+  void statusListener(String status) {
     setState(() {
-      lastStatus = "$status";
+      lastStatus = status;
     });
+  }
+
+
+  retreiveDate(){
+   return FutureBuilder(
+     future: WordToImageService().getWordData(),
+       builder: (_,snap){
+       WordModel wordModel=snap.data as WordModel;
+     if(snap.connectionState==ConnectionState.waiting){
+       return const Center(child: CircularProgressIndicator());
+     }else if(snap.connectionState==ConnectionState.done){
+       return AppCashedImage(
+         imageUrl: wordModel.imageUrl ??
+             'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
+         fit: BoxFit.fill,
+       );
+     }else{
+       return const SizedBox();
+     }
+   });
   }
 }
