@@ -58,7 +58,7 @@ class _CrazyAppState extends State<CrazyApp> {
                 title: 'Crazy Food',
                 theme: ThemeData(
                     primarySwatch: Colors.green, platform: TargetPlatform.iOS),
-                home:  UserView()
+                home:  SplashScreen()
             ),
           ),
 
