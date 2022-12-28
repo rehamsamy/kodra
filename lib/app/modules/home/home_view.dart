@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kodra/app/core/get_binding.dart';
+import 'package:kodra/app/modules/disability/view/disability_view.dart';
 import 'package:kodra/app/modules/items/my_drawer.dart';
 import 'package:kodra/app/modules/user/view/user_view.dart';
 import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
@@ -48,9 +49,9 @@ class _HomeViewState extends State<HomeView> {
 
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration:  BoxDecoration(
-                      gradient:const LinearGradient(
+                    padding: const EdgeInsets.all(10),
+                    decoration:  const BoxDecoration(
+                      gradient:LinearGradient(
                         colors: [
                           kPurpleColor,
                           kUnSelectedColor
@@ -68,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
               ),
-              SizedBox(height: 50,),
+              const SizedBox(height: 50,),
               Card(
                 elevation: 20,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -88,15 +89,19 @@ class _HomeViewState extends State<HomeView> {
                           textColor: isLogin ? Colors.white : kPurpleColor,
                           // text: 'ذوي الاعاقة السمعية',
                           onPressed: (AnimationController animationController) {
+                            animationController.forward();
+                            Future.delayed(const Duration(seconds: 5));
                             setState(() {
                               isLogin = true;
                             });
+                            Get.off(()=>const DisabilityView(),binding: GetBinding());
+                            animationController.reverse();
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                                Icon(Icons.perm_identity,size: 40,color:  isLogin ? Colors.white : kPurpleColor),
-                              AppText('ذوي الاعاقة السمعية',color:  isLogin ? Colors.white : kPurpleColor,fontSize: 18,),
+                              AppText('ذوي القدرة السمعية',color:  isLogin ? Colors.white : kPurpleColor,fontSize: 18,),
                             ],
                           ),
                         ),
@@ -110,10 +115,13 @@ class _HomeViewState extends State<HomeView> {
                           backgroundColor: isLogin ? Colors.white : kPurpleColor,
                           // text: 'المستخدم',
                           onPressed: (AnimationController animationController) {
+                            animationController.forward();
+                            Future.delayed(const Duration(seconds: 5));
                             setState(() {
                               isLogin = false;
                             });
                             Get.off(()=>UserView(),binding: GetBinding());
+                            animationController.reverse();
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,

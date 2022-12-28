@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
 import 'package:kodra/app/shared/AnimatedWidgets.dart';
+import 'package:kodra/app_constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -34,16 +35,37 @@ class _SplashScreenState extends State<SplashScreen> {
             duration: 2,
             horizontalOffset: 0,
             verticalOffset: 150,
-            child: Container(
-              margin: EdgeInsets.only(top: height / 3),
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/free_icon.png',),
+            child: Align(
+              alignment: Alignment.center,
+              child: Card(
+                elevation: 20,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration:  const BoxDecoration(
+                    gradient:LinearGradient(
+                        colors: [
+                          kPurpleColor,
+                          kUnSelectedColor
+                        ]
+                    ),
+
+                  ),
+                  child:
+                  Image.asset(
+                    'assets/images/free_icon.png',
+                    width: 160,
+                    height: 160,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ),
+
           ),
         ),
       ),

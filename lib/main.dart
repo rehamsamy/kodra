@@ -1,22 +1,17 @@
 import 'package:kodra/app/core/get_binding.dart';
 import 'package:kodra/app/core/values/localization/translation.dart';
-import 'package:kodra/app/data/models/login_model.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
-import 'package:kodra/app/modules/auth/login/view/login_screen.dart';
-import 'package:kodra/app/modules/home/home_view.dart';
-import 'package:kodra/app/modules/user/view/user_view.dart';
-import 'package:kodra/app/views/network_error.dart';
+import 'package:kodra/app/modules/items/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:kodra/app/views/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.init();
+  await Firebase.initializeApp();
   runApp( const CrazyApp(),);
 }
 
@@ -62,7 +57,7 @@ class _CrazyAppState extends State<CrazyApp> {
                 title: 'Crazy Food',
                 theme: ThemeData(
                     primarySwatch: Colors.green, platform: TargetPlatform.iOS),
-                home: SplashScreen()
+                home: const SplashScreen()
             ),
           ),
 
