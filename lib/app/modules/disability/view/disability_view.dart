@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:text_to_speech/text_to_speech.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:video_player/video_player.dart';
 
 
 class DisabilityView extends StatefulWidget {
@@ -21,6 +23,9 @@ class DisabilityView extends StatefulWidget {
 
 class _DisabilityViewState extends State<DisabilityView> {
   FirebaseStorage _storage = FirebaseStorage.instance;
+  final fb = FirebaseDatabase.instance;
+  ImagePicker videoPicker = ImagePicker();
+  File? videoFile;
   File? imageFile = null;
   File? cameraFile;
   String? _uploadedFileURL;
@@ -161,33 +166,37 @@ class _DisabilityViewState extends State<DisabilityView> {
   }
 
 
+  getVideoFromCamera() async {
+    final source = await videoPicker.getVideo(source: ImageSource.camera);
+    videoFile = File(source!.path);
+    // Navigator.of(context).push(
+    //     MaterialPageRoute(builder: (context) => PlayVideo(data: videoFile!)));
+  }
+
   Future uploadFile() async {
+    final ref = fb.reference();
     try {
       final storageReference = FirebaseStorage.instance
-          .ref().child('images')
-          .child('${(imageFile?.path)}');
-      final uploadTask = storageReference.putFile(imageFile!);
+          .ref().child('videos');
+          // .child('${(imageFile?.path)}');
+      // final uploadTask = storageReference.putFile(imageFile!);
+      final uploadTask = storageReference.putFile(videoFile!);
       print('File Uploaded1' + imageFile.toString());
       final snapshat = await uploadTask.whenComplete(() => null);
+
+      //+++++++++++++++++++   ===>>          upload url to firebase database --------------
+String videoUrl= await storageReference.getDownloadURL();
+print('vvvvvvvv  $videoUrl');
+      ref.child('videoToImage').set(
+          {
+            'isChange': true,
+            'word': '',
+            'videoUrl':videoUrl
+          });
     }catch(err){
       print('vvvvv  '+err.toString());
     }
-   //  print('File Uploaded');
-   //  storageReference.getDownloadURL().then((fileURL) {
-   //    setState(() {
-   //      _uploadedFileURL = fileURL;
-   //    });
-   //  });
 
-    // StorageReference storageReference = FirebaseStorage.instance
-    //     .ref()
-    //     .child('posts/$id/${basename(_image.path)}');
-    // StorageUploadTask uploadTask = storageReference.putFile(File(_image.path));
-    // await uploadTask.onComplete;
-    //
-    // // newImg.add(await storageReference.getDownloadURL());
-    // //  print('#############   ${newImg.length}');
-    // return await storageReference.getDownloadURL();
   }
 
   Future<void> _showChoiceDialog(BuildContext context) {
@@ -222,7 +231,8 @@ class _DisabilityViewState extends State<DisabilityView> {
                   ),
                   ListTile(
                     onTap: () {
-                      _openCamera(context);
+                      // _openCamera(context);
+                      getVideoFromCamera();
                     },
                     title: const Text("Camera"),
                     leading: const Icon(
