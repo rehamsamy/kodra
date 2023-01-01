@@ -31,7 +31,7 @@ showSnackBar(String message, {bool popPage = false, int duration = 3}) {
     padding: EdgeInsets.all(10),
     duration: Duration(seconds: 5),
     colorText: Colors.white,
-    backgroundColor: kPrimaryColor,
+    backgroundColor: kPurpleColor,
     borderRadius: 5,
     snackPosition: SnackPosition.BOTTOM,
   );
