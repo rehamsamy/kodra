@@ -3,9 +3,11 @@ import 'package:kodra/app/data/models/word_model.dart';
 import 'package:kodra/app/data/remote_data_source/word_to_image_api.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
 import 'package:get/get.dart';
+import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:kodra/app/shared/app_cached_image.dart';
 import 'package:kodra/app/shared/app_text.dart';
 import 'package:kodra/app/shared/app_text_field.dart';
+import 'package:kodra/app/shared/snack_bar.dart';
 import 'package:kodra/app_constant.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -26,7 +28,7 @@ class _UserViewState extends State<UserView> {
   String ? imageUrl;
   bool _hasSpeech = false;
 
-  String lastWords = "";
+  String lastWords = "initial";
 
   String lastError = "";
 
@@ -78,7 +80,7 @@ bool isLoading=false;
       body: Column(
         children: [
           Expanded(
-              flex: 4,
+              // flex: 5,
               child: SizedBox(
                 width: 250,
                 child:
@@ -94,61 +96,169 @@ bool isLoading=false;
                   fit: BoxFit.fill,
                 ),
               )),
-          Expanded(
-              child: Container(
-                color: kGreyColor,
-                child: Row(
-                  children: [
-                    IconButton(onPressed: startListening
-                        ,
-                        icon: const Icon(Icons.keyboard_voice, size: 35,
-                          color: kPurpleColor,)),
-                    Expanded(
-                      child: CustomTextFormField(
-                        backgroundColor: Colors.grey,
-                        verticalPadding: 0,
-                        horizontalPadding: 0,
-                        keyboardType: TextInputType.text,
-                        controller: wordController,
-                        text: 'اكتب هنا',
-                        validateEmptyText: 'empty'.tr,
-                        radius: 10,
-                        hintText: 'اكتب هنا',
+          Container(
+            color: kGreyColor,
+            height: 150,
+            padding: EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      IconButton(onPressed: startListening
+                          ,
+                          icon: const Icon(Icons.keyboard_voice, size: 35,
+                            color: kPurpleColor,)),
+                      Expanded(
+                        child: CustomTextFormField(
+                          backgroundColor: Colors.grey,
+                          verticalPadding: 0,
+                          horizontalPadding: 0,
+                          keyboardType: TextInputType.text,
+                          controller: wordController,
+                          text: 'اكتب هنا',
+                          validateEmptyText: 'empty'.tr,
+                          radius: 10,
+                          hintText: 'اكتب هنا',
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.perm_identity, size: 35, color: Colors.black,),
-                      onPressed: () {
-                        ref.child('wordToImage').set(
-                            {
-                              'isChange': true,
-                              'word': wordController.text,
-                              'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
-                            });
-                          setState(() {
-                            isLoading=true;
-                          });
-                          Future.delayed(const Duration(seconds: 5)).then((value) {
-                            FirebaseDatabase.instance.reference().child(
-                                "wordToImage").once().then((
-                                DatabaseEvent snapshot) {
-                              WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
-                              setState(() {
-                                isLoading=false;
-                                imageUrl=model.imageUrl;
-                              });
-
-                            });
-                          });
-
-                      },
-                    )
-                  ],
+                      // IconButton(
+                      //   icon: const Icon(
+                      //     Icons.perm_identity, size: 35, color: Colors.black,),
+                      //   onPressed: () {
+                      //     ref.child('wordToImage').set(
+                      //         {
+                      //           'isChange': true,
+                      //           'word': wordController.text,
+                      //           'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
+                      //         });
+                      //       setState(() {
+                      //         isLoading=true;
+                      //       });
+                      //       Future.delayed(const Duration(seconds: 5)).then((value) {
+                      //         FirebaseDatabase.instance.reference().child(
+                      //             "wordToImage").once().then((
+                      //             DatabaseEvent snapshot) {
+                      //           WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
+                      //           setState(() {
+                      //             isLoading=false;
+                      //             imageUrl=model.imageUrl;
+                      //           });
+                      //
+                      //         });
+                      //       });
+                      //
+                      //   },
+                      // )
+                    ],
+                  ),
                 ),
-              )),
+                SizedBox(height: 5,),
+                AppProgressButton(
+                  isBordered: true,
+                  textColor: Colors.white,
+                  backgroundColor: kPurpleColor,
+                  // text: 'المستخدم',
+                  onPressed: (AnimationController animationController) {
+                    animationController.forward();
+
+                    ref.child('wordToImage').set(
+                        {
+                          'isChange': true,
+                          'word': wordController.text,
+                          'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
+                        });
+                    setState(() {
+                      isLoading=true;
+                    });
+                    Future.delayed(const Duration(seconds: 5)).then((value) {
+                      FirebaseDatabase.instance.reference().child(
+                          "wordToImage").once().then((
+                          DatabaseEvent snapshot) {
+                        WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
+                        setState(() {
+                          isLoading=false;
+                          imageUrl=model.imageUrl;
+                        });
+
+                        showSnackBar('تم رفع النص بنجاح');
+                        animationController.reverse();
+
+                      });
+                    });
+
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      AppText(
+                        'تحويل',
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Icon(Icons.forward, size: 20, color: Colors.white),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Expanded(flex:1,child:  AppProgressButton(
+          //   isBordered: true,
+          //   textColor: Colors.white,
+          //   backgroundColor: kPurpleColor,
+          //   // text: 'المستخدم',
+          //   onPressed: (AnimationController animationController) {
+          //     animationController.forward();
+          //
+          //     ref.child('wordToImage').set(
+          //         {
+          //           'isChange': true,
+          //           'word': wordController.text,
+          //           'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
+          //         });
+          //     setState(() {
+          //       isLoading=true;
+          //     });
+          //     Future.delayed(const Duration(seconds: 5)).then((value) {
+          //       FirebaseDatabase.instance.reference().child(
+          //           "wordToImage").once().then((
+          //           DatabaseEvent snapshot) {
+          //         WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
+          //         setState(() {
+          //           isLoading=false;
+          //           imageUrl=model.imageUrl;
+          //         });
+          //
+          //         showSnackBar('تم رفع النص بنجاح');
+          //         animationController.reverse();
+          //
+          //       });
+          //     });
+          //
+          //   },
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: const [
+          //       AppText(
+          //         'تحويل',
+          //         color: Colors.white,
+          //         fontSize: 18,
+          //       ),
+          //       SizedBox(
+          //         width: 15,
+          //       ),
+          //       Icon(Icons.forward, size: 20, color: Colors.white),
+          //     ],
+          //   ),
+          // ),),
           Expanded(
-              flex: 3,
+              // flex:4,
               child: Container(
                 color: kBackgroundDarkColor,
                 child: Center(
