@@ -55,7 +55,7 @@ class _CrazyAppState extends State<CrazyApp> {
                 locale:
                 LocalStorage.isAr ? const Locale('ar') : const Locale('en'),
                 fallbackLocale: const Locale('en'),
-                title: 'Crazy Food',
+                title: 'kodra',
                 theme: ThemeData(
                     primarySwatch: Colors.green, platform: TargetPlatform.iOS),
                 home:  SplashScreen()

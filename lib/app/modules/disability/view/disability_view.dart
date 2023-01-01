@@ -208,7 +208,7 @@ class _DisabilityViewState extends State<DisabilityView> {
                       ),
                       Center(
                           child: AppText(
-                        resultWords ?? 'lastWords',
+                        resultWords ?? '',
                         fontSize: 22,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -335,17 +335,27 @@ class _DisabilityViewState extends State<DisabilityView> {
   }
 
   void getWordsString() {
-    Future.delayed(const Duration(seconds: 3)).then((value) {
-      FirebaseDatabase.instance
-          .reference()
-          .child("videoToText")
-          .once()
-          .then((DatabaseEvent snapshot) {
+    FirebaseDatabase.instance
+        .reference()
+        .child("videoToText").onChildChanged.
+    listen((DatabaseEvent snapshot) {
+      setState(() {
         WordModel model = WordModel.fromJson(snapshot.snapshot.value);
-        setState(() {
-          resultWords = model.word;
-        });
+        Get.log('vvvvv  '+model.word.toString());
+        resultWords = model.word;
       });
     });
+    // Future.delayed(const Duration(seconds: 3)).then((value) {
+    //   FirebaseDatabase.instance
+    //       .reference()
+    //       .child("videoToText").onChildChanged.
+    //   listen((DatabaseEvent snapshot) {
+    //       setState(() {
+    //         WordModel model = WordModel.fromJson(snapshot.snapshot.value);
+    //         Get.log('vvvvv  '+model.word.toString());
+    //         resultWords = model.word;
+    //       });
+    //     });
+    //     });
   }
 }

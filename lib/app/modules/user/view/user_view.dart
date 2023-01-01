@@ -163,13 +163,13 @@ bool isLoading=false;
                   // text: 'المستخدم',
                   onPressed: (AnimationController animationController) {
                     animationController.forward();
-
+                    Get.log('vvvvvv  '+wordController.text.toString());
                     ref.child('wordToImage').set(
                         {
                           'isChange': true,
                           'word': wordController.text,
                           'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
-                        });
+                        }).then((value) => print('yes')).onError((error, stackTrace) => print('ddddd ${error.toString()}'));
                     setState(() {
                       isLoading=true;
                     });
