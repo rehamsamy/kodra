@@ -9,6 +9,7 @@ import 'package:kodra/app/shared/app_text.dart';
 import 'package:kodra/app/shared/snack_bar.dart';
 import 'package:kodra/app_constant.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 import 'package:text_to_speech/text_to_speech.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -37,6 +38,7 @@ class _DisabilityViewState extends State<DisabilityView> {
   double pitch = 1.0;
   late final File data;
   String? resultWords;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -139,19 +141,29 @@ class _DisabilityViewState extends State<DisabilityView> {
                       onPressed: (AnimationController animationController) {
                         print('File Uploaded1');
                         animationController.forward();
-                        if(videoFile != null){
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (videoFile != null) {
                           uploadFile().then((value) {
-                            Future.delayed(const Duration(seconds: 3))
+                            Future.delayed(const Duration(seconds: 10))
                                 .then((value) {
                               showSnackBar('تم رفع الفيديو بنجاح');
                               animationController.reverse();
+                              setState(() {
+                                isLoading = false;
+                              });
                             });
                           });
-                        }else{
+                        } else {
                           print('step2');
-                          Future.delayed(const Duration(seconds: 3)).then((value) {
+                          Future.delayed(const Duration(seconds: 3))
+                              .then((value) {
                             showSnackBar('من فضلك اختر فيديو');
                             animationController.reverse();
+                            setState(() {
+                              isLoading = false;
+                            });
                           });
                         }
                       },
@@ -207,12 +219,15 @@ class _DisabilityViewState extends State<DisabilityView> {
                         ),
                       ),
                       Center(
-                          child: AppText(
-                        resultWords ?? '',
-                        fontSize: 22,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      )),
+                         child: getWordWidget()
+                      //    AppText(
+                      //   resultWords ?? '',
+                      //   fontSize: 22,
+                      //   color: Colors.black,
+                      //   fontWeight: FontWeight.bold,
+                      // )
+                      ),
+
                     ],
                   ),
                 )),
@@ -255,22 +270,27 @@ class _DisabilityViewState extends State<DisabilityView> {
     print('File Uploaded1$videoFile');
     try {
       final storageReference = FirebaseStorage.instance.ref().child('videos');
-      final uploadTask = storageReference.putFile(videoFile!);
-      print('File Uploaded1$imageFile');
-      String videoUrl = await storageReference.getDownloadURL();
-      print('vvvvvvvv  $videoUrl');
-      ref
-          .child('videoToText')
-          .set({'isChange': true, 'word': '', 'videoUrl': videoUrl});
-
-      getWordsString();
+      // final uploadTask = storageReference.putFile(videoFile!);
+      storageReference.putFile(videoFile!).then((val) async {
+        if(val.state==TaskState.success){
+          String videoUrl = await storageReference.getDownloadURL();
+          print('vvvvvvvv  $videoUrl');
+          ref.child('videoToText').set({
+            'isChange': true,
+            'word': '',
+            'videoUrl': videoUrl
+          }).then((val) {
+              print('vvvvvvvv 2 $videoUrl');
+              getWordsString();
+          });
+        }
+      });
 
       //+++++++++++++++++++   ===>>          upload url to firebase database --------------
     } catch (err) {
       print('vvvvv  $err');
     }
   }
-
 
   Future<void> _showChoiceDialog(BuildContext context) {
     return showDialog(
@@ -336,27 +356,40 @@ class _DisabilityViewState extends State<DisabilityView> {
   }
 
   void getWordsString() {
-    FirebaseDatabase.instance
-        .reference()
-        .child("videoToText").onChildChanged.
-    listen((DatabaseEvent snapshot) {
-      setState(() {
-        WordModel model = WordModel.fromJson(snapshot.snapshot.value);
-        Get.log('vvvvv  '+model.word.toString());
-        resultWords = model.word;
+    try{
+      FirebaseDatabase.instance
+          .reference()
+          .child("videoToText")
+         .onValue.listen((event) {
+        Get.log('word text =>${event.snapshot.toString()}');
+          setState(() {
+            WordModel model = WordModel.fromJson(event.snapshot.value);
+            Get.log('word text =>${model.word}');
+            resultWords = model.word;
+          });
       });
-    });
-    // Future.delayed(const Duration(seconds: 3)).then((value) {
-    //   FirebaseDatabase.instance
-    //       .reference()
-    //       .child("videoToText").onChildChanged.
-    //   listen((DatabaseEvent snapshot) {
-    //       setState(() {
-    //         WordModel model = WordModel.fromJson(snapshot.snapshot.value);
-    //         Get.log('vvvvv  '+model.word.toString());
-    //         resultWords = model.word;
-    //       });
-    //     });
-    //     });
+    }catch(err){
+      Get.log('word text =>${err}');
+    }
+  }
+
+  getWordWidget() {
+    if (isLoading || resultWords == null || resultWords == '') {
+      Get.log('step1 => ' + resultWords.toString());
+      return Center(
+        child: JumpingDotsProgressIndicator(
+          fontSize: 60.0,
+          numberOfDots: 4,
+        ),
+      );
+    } else if (!isLoading && resultWords != null) {
+      Get.log('step2');
+      return AppText(
+        resultWords ?? '',
+        fontSize: 22,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      );
+    }
   }
 }
