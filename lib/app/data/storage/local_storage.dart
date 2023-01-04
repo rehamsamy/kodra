@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
+import 'package:kodra/app/data/models/login_model.dart';
 
 class LocalStorage {
   static final GetStorage _box = GetStorage();
@@ -35,14 +36,14 @@ class LocalStorage {
   //       ))
   //     : null;
 
-  // static Future<void> saveUser(LoginModel model) async {
-  //   await setBool(loginKey, true);
-  //   await setString(userModel, jsonEncode(model.toJson()));
-  //   await setString('model', jsonEncode(model.toJson()));
-  //   await setString('name', model.name??'');
-  //   await setString('name', model.name??'');
-  //   Get.log('user ${ getString(userModel).toString()} saved to local storage');
-  // }
+  static Future<void> saveUser(LoginModel model) async {
+    await setBool(loginKey, true);
+    await setString(userModel, jsonEncode(model.toJson()));
+    await setString('model', jsonEncode(model.toJson()));
+    await setString('name', model.name??'');
+    await setString('name', model.name??'');
+    Get.log('user ${ getString(userModel).toString()} saved to local storage');
+  }
 
   /// ===========================================================
   static Future setString(String key, String value) async {

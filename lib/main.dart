@@ -1,6 +1,8 @@
 import 'package:kodra/app/core/get_binding.dart';
 import 'package:kodra/app/core/values/localization/translation.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
+import 'package:kodra/app/modules/auth/view/login_view.dart';
+import 'package:kodra/app/modules/auth/view/register_view.dart';
 import 'package:kodra/app/modules/items/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,7 +60,7 @@ class _CrazyAppState extends State<CrazyApp> {
                 title: 'kodra',
                 theme: ThemeData(
                     primarySwatch: Colors.green, platform: TargetPlatform.iOS),
-                home:  SplashScreen()
+                home:  LoginView()
             ),
           ),
 

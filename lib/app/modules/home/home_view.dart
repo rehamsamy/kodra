@@ -100,7 +100,7 @@ class _HomeViewState extends State<HomeView> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                                Icon(Icons.perm_identity,size: 40,color:  isLogin ? Colors.white : kPurpleColor),
-                              AppText('ذوي القدرة السمعية',color:  isLogin ? Colors.white : kPurpleColor,fontSize: 18,),
+                              AppText('ذوي الاعاقة السمعية',color:  isLogin ? Colors.white : kPurpleColor,fontSize: 18,),
                             ],
                           ),
                         ),
