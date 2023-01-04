@@ -22,6 +22,12 @@ class LoginView extends GetView<AuthController> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: kBackgroundDarkColor,
+          title:  AppText(
+            'login'.tr,
+            fontSize: 22,
+            color: Colors.black,
+          ),
+          centerTitle: true,
           actions: [
             IconButton(
                 onPressed: () {
@@ -43,6 +49,7 @@ class LoginView extends GetView<AuthController> {
               key: _formKey,
               child: Column(
                 children: [
+                  SizedBox(height: 20,),
                   Card(
                     elevation: 20,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -71,15 +78,14 @@ class LoginView extends GetView<AuthController> {
                     ),
                   ),
                   const SizedBox(height: 25,),
+
                   CustomTextFormField(
-                    hintText: 'user_hint'.tr,
-                    controller: controller.nameController,
+                    hintText: 'email_hint'.tr,
+                    controller: controller.emailController,
                     keyboardType: TextInputType.text,
                     validateEmptyText: 'empty'.tr,
-                    prefixIcon: Icons.person_outline,
+                    prefixIcon: Icons.email_outlined,
                     radius: 15,
-                    backgroundColor: kGreyColor,
-                    textColor: Colors.black,
                   ),
                   CustomTextFormField(
                     hintText: 'code_hint'.tr,
@@ -98,8 +104,7 @@ class LoginView extends GetView<AuthController> {
                           if(_formKey.currentState!.validate()) {
                             animationController.forward();
                             await Future.delayed(const Duration(seconds: 2)).then((value) async{
-                              LoginModel model = await AuthApis().registerUser(
-                                  name: controller.nameController.text,
+                              LoginModel model = await AuthApis().loginUser(
                                   email: controller.emailController.text,
                                   password: controller.codeController.text);
                               if (model.expiresIn != null) {

@@ -2,14 +2,11 @@ import 'package:kodra/app/core/get_binding.dart';
 import 'package:kodra/app/core/values/localization/translation.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
 import 'package:kodra/app/modules/auth/view/login_view.dart';
-import 'package:kodra/app/modules/auth/view/register_view.dart';
-import 'package:kodra/app/modules/items/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:kodra/app/modules/user/view/user_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +54,7 @@ class _CrazyAppState extends State<CrazyApp> {
                 locale:
                 LocalStorage.isAr ? const Locale('ar') : const Locale('en'),
                 fallbackLocale: const Locale('en'),
-                title: 'kodra',
+                title: 'Quodra',
                 theme: ThemeData(
                     primarySwatch: Colors.green, platform: TargetPlatform.iOS),
                 home:  LoginView()

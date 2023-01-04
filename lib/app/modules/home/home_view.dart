@@ -100,7 +100,7 @@ class _HomeViewState extends State<HomeView> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                                Icon(Icons.perm_identity,size: 40,color:  isLogin ? Colors.white : kPurpleColor),
-                              AppText('ذوي الاعاقة السمعية',color:  isLogin ? Colors.white : kPurpleColor,fontSize: 18,),
+                              AppText('hearing_impairment'.tr,color:  isLogin ? Colors.white : kPurpleColor,fontSize: 18,),
                             ],
                           ),
                         ),
@@ -126,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                                Icon(Icons.perm_identity,size: 40,color:isLogin ? kPurpleColor : Colors.white ,),
-                              AppText('المستخدم',color:  isLogin ? kPurpleColor : Colors.white,fontSize: 18,),
+                              AppText('user'.tr,color:  isLogin ? kPurpleColor : Colors.white,fontSize: 18,),
                             ],
                           ),
                         ),
@@ -139,7 +139,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      drawer: const MyDrawer(),
+      drawer:  MyDrawer(),
     );
   }
 }

@@ -14,7 +14,6 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:progress_indicators/progress_indicators.dart';
-
 class UserView extends StatefulWidget {
   const UserView({Key? key}) : super(key: key);
 
@@ -57,8 +56,8 @@ class _UserViewState extends State<UserView> {
     final ref = fb.reference();
     return Scaffold(
       appBar: AppBar(
-        title: const AppText(
-          'المستخدم',
+        title:  AppText(
+          'user'.tr,
           fontSize: 22,
           color: Colors.black,
         ),
@@ -203,13 +202,13 @@ class _UserViewState extends State<UserView> {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
+                    children:  [
                       AppText(
-                        'تحويل',
+                        'convert'.tr,
                         color: Colors.white,
                         fontSize: 18,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                       Icon(Icons.forward, size: 20, color: Colors.white),

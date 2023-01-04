@@ -6,6 +6,7 @@ import 'package:kodra/app/data/remote_data_source/auth_apis.dart';
 import 'package:kodra/app/modules/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:kodra/app/modules/auth/view/gender_view.dart';
+import 'package:kodra/app/modules/auth/view/login_view.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
 import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:kodra/app/shared/app_text.dart';
@@ -21,7 +22,22 @@ class RegisterView extends GetView<AuthController> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+          title:  AppText(
+            'register'.tr,
+            fontSize: 22,
+            color: Colors.black,
+          ),
+          centerTitle: true,
           backgroundColor: kBackgroundDarkColor,
+          leading:IconButton(
+              onPressed: () {
+                Get.off(() =>  LoginView());
+              },
+              icon: const Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.black,
+                size: 35,
+              )) ,
           actions: [
             IconButton(
                 onPressed: () {
@@ -31,7 +47,8 @@ class RegisterView extends GetView<AuthController> {
                   Icons.settings,
                   color: Colors.black,
                   size: 35,
-                ))
+                )),
+
           ],
         ),
         body: Container(

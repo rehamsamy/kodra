@@ -67,8 +67,8 @@ class _DisabilityViewState extends State<DisabilityView> {
     FlutterTts ftts = FlutterTts();
     return Scaffold(
         appBar: AppBar(
-          title: const AppText(
-            'ذوي القدرة السمعية',
+          title:  AppText(
+            'hearing_impairment'.tr,
             fontSize: 22,
             color: Colors.black,
           ),

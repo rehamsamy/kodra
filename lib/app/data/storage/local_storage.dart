@@ -42,6 +42,7 @@ class LocalStorage {
     await setString('model', jsonEncode(model.toJson()));
     await setString('name', model.name??'');
     await setString('name', model.name??'');
+    Get.log('user ${ isLoggedIn}  is saved to local storage');
     Get.log('user ${ getString(userModel).toString()} saved to local storage');
   }
 

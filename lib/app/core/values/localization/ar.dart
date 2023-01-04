@@ -103,7 +103,15 @@ Map<String, String> ar = {
   'paid':'المدفوع',
   'login':'تسجيل الدخول',
   'register':'انشاء حساب',
-  'sign_out':'تسجيل الخروج'
+  'sign_out':'تسجيل الخروج',
+  'user_hint':'الاسم',
+  'phone_hint':'رقم الجوال',
+  'gender':'النوع:',
+  'male':'ذكر',
+  'female':'انثي',
+  'hearing_impairment':'ذوي الاعاقة السمعيه',
+  'user':'المستخدم',
+  'conver':'تحويل'
 
 
 

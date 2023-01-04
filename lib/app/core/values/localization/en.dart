@@ -98,6 +98,18 @@ Map<String, String> en = {
   'paid':'Paid',
   'login':'Login',
   'register':'Register',
-  'sign_out':'ٍSignOut'
+  'sign_out':'ٍSignOut',
+  'user_hint':'User',
+  'user_name_hint':'User Name',
+  'phone_hint':'Phone number',
+  'gender':'Gender:',
+  'male':'Male',
+  'female':'Female',
+  'register':'Register',
+  'sign_out':'ٍSignOut',
+  'hearing_impairment':'Hearing Impairment',
+  'user':'User',
+  'conver':'Convert'
+
 
 };
