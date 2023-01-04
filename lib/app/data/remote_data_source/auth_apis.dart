@@ -40,6 +40,7 @@ class AuthApis {
     return loginModel;
   }
 
+
   Future<LoginModel> registerUser({required name,required email,required password})async{
     LoginModel loginModel=LoginModel();
     String   baseUrl= 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$kApiKey';
