@@ -1,12 +1,12 @@
 import 'package:kodra/app/core/get_binding.dart';
 import 'package:kodra/app/core/values/localization/translation.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
-import 'package:kodra/app/modules/auth/view/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:kodra/app/modules/items/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,11 +17,9 @@ void main() async {
 
 class CrazyApp extends StatefulWidget {
   const CrazyApp({Key? key}) : super(key: key);
-
   @override
   State<CrazyApp> createState() => _CrazyAppState();
 }
-
 class _CrazyAppState extends State<CrazyApp> {
   @override
   Widget build(BuildContext context) {
@@ -54,10 +52,10 @@ class _CrazyAppState extends State<CrazyApp> {
                 locale:
                 LocalStorage.isAr ? const Locale('ar') : const Locale('en'),
                 fallbackLocale: const Locale('en'),
-                title: 'Quodra',
+                title: 'Qodra',
                 theme: ThemeData(
                     primarySwatch: Colors.green, platform: TargetPlatform.iOS),
-                home:  LoginView()
+                home:  SplashScreen()
             ),
           ),
 

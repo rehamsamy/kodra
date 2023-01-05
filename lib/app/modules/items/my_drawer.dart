@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
+import 'package:kodra/app/modules/items/send_message.dart';
 import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:kodra/app/shared/app_text.dart';
 import 'package:kodra/app_constant.dart';
 import 'package:get/get.dart';
 
 class MyDrawer extends StatefulWidget {
-   MyDrawer({Key? key}) : super(key: key);
-
+   const MyDrawer({Key? key}) : super(key: key);
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
-
 class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
@@ -70,7 +69,9 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
             ),
             InkWell(
-              onTap: (){},
+              onTap: (){
+                Get.off(()=>SendMessageView());
+              },
               child: Container(
                 width: 200,
                 color: kGreyColor,
@@ -152,6 +153,8 @@ class _MyDrawerState extends State<MyDrawer> {
     await Get.updateLocale(Locale(lang));
     LocalStorage.saveLocale(lang);
   }
+
+
 
   final List locale = [
     {'name': 'ENGLISH', 'locale': const Locale('us')},

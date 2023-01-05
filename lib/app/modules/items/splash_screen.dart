@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:kodra/app/core/get_binding.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
 import 'package:kodra/app/modules/auth/view/login_view.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 5), () {
       Get.log('user2 ${ LocalStorage.isLoggedIn}  is saved to local storage');
-       Get.off(() => LocalStorage.isLoggedIn ? const HomeView() :  LoginView());
+       Get.off(() => LocalStorage.isLoggedIn ? const HomeView() :  LoginView(),binding: GetBinding());
       // Get.off(()=>HomeView());
     });
 

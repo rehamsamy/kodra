@@ -13,6 +13,7 @@ import 'package:progress_indicators/progress_indicators.dart';
 import 'package:text_to_speech/text_to_speech.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class DisabilityView extends StatefulWidget {
@@ -24,6 +25,7 @@ class DisabilityView extends StatefulWidget {
 
 class _DisabilityViewState extends State<DisabilityView> {
   FirebaseStorage _storage = FirebaseStorage.instance;
+
   late VideoPlayerController _controller;
   final fb = FirebaseDatabase.instance;
   ImagePicker videoPicker = ImagePicker();
@@ -39,7 +41,7 @@ class _DisabilityViewState extends State<DisabilityView> {
   late final File data;
   String? resultWords;
   bool isLoading = false;
-
+  late final Uri ? _url ;
   @override
   void initState() {
     if (videoFile != null) {
@@ -64,10 +66,11 @@ class _DisabilityViewState extends State<DisabilityView> {
 
   @override
   Widget build(BuildContext context) {
+    _url=Uri.parse('https://www.google.com/search?q=${resultWords??'search here'}');
     FlutterTts ftts = FlutterTts();
     return Scaffold(
         appBar: AppBar(
-          title:  AppText(
+          title: AppText(
             'hearing_impairment'.tr,
             fontSize: 22,
             color: Colors.black,
@@ -110,82 +113,83 @@ class _DisabilityViewState extends State<DisabilityView> {
             ),
             Expanded(
                 child: Container(
-              color: kGreyColor,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          _showChoiceDialog(context);
-                        },
-                        icon: const Icon(
-                          Icons.video_call_outlined,
-                          size: 40,
-                          color: kPurpleColor,
-                        )),
-                    // IconButton(
-                    //   onPressed: uploadFile,
-                    //   icon: const Icon(
-                    //     Icons.perm_identity,
-                    //     size: 40,
-                    //     color: Colors.black,
-                    //   ),
-                    // ),
-                    AppProgressButton(
-                      isBordered: true,
-                      textColor: Colors.white,
-                      backgroundColor: kPurpleColor,
-                      // text: 'المستخدم',
-                      onPressed: (AnimationController animationController) {
-                        print('File Uploaded1');
-                        animationController.forward();
-                        setState(() {
-                          isLoading = true;
-                        });
-                        if (videoFile != null) {
-                          uploadFile().then((value) {
-                            Future.delayed(const Duration(seconds: 10))
-                                .then((value) {
-                              showSnackBar('تم رفع الفيديو بنجاح');
-                              animationController.reverse();
-                              setState(() {
-                                isLoading = false;
-                              });
-                            });
-                          });
-                        } else {
-                          print('step2');
-                          Future.delayed(const Duration(seconds: 3))
-                              .then((value) {
-                            showSnackBar('من فضلك اختر فيديو');
-                            animationController.reverse();
+                  color: kGreyColor,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              _showChoiceDialog(context);
+                            },
+                            icon: const Icon(
+                              Icons.video_call_outlined,
+                              size: 40,
+                              color: kPurpleColor,
+                            )),
+                        // IconButton(
+                        //   onPressed: uploadFile,
+                        //   icon: const Icon(
+                        //     Icons.perm_identity,
+                        //     size: 40,
+                        //     color: Colors.black,
+                        //   ),
+                        // ),
+                        AppProgressButton(
+                          isBordered: true,
+                          textColor: Colors.white,
+                          backgroundColor: kPurpleColor,
+                          // text: 'المستخدم',
+                          onPressed: (AnimationController animationController) {
+                            print('File Uploaded1');
+                            animationController.forward();
                             setState(() {
-                              isLoading = false;
+                              isLoading = true;
                             });
-                          });
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          AppText(
-                            'تحويل',
-                            color: Colors.white,
-                            fontSize: 18,
+                            if (videoFile != null) {
+                              uploadFile().then((value) {
+                                Future.delayed(const Duration(seconds: 10))
+                                    .then((value) {
+                                  showSnackBar('تم رفع الفيديو بنجاح');
+                                  animationController.reverse();
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                });
+                              });
+                            } else {
+                              print('step2');
+                              Future.delayed(const Duration(seconds: 3))
+                                  .then((value) {
+                                showSnackBar('من فضلك اختر فيديو');
+                                animationController.reverse();
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              });
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              AppText(
+                                'تحويل',
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Icon(Icons.forward, size: 20, color: Colors
+                                  .white),
+                            ],
                           ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Icon(Icons.forward, size: 20, color: Colors.white),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            )),
+                  ),
+                )),
             Expanded(
                 flex: 3,
                 child: Container(
@@ -193,14 +197,16 @@ class _DisabilityViewState extends State<DisabilityView> {
                   child: Column(
                     children: [
                       Align(
-                        alignment: AlignmentDirectional.topStart,
+                        alignment: AlignmentDirectional.topEnd,
                         child: IconButton(
                           icon: const Icon(
-                            Icons.volume_up,
+                            // Icons.volume_up,
+                            Icons.search_outlined,
                             size: 40,
                           ),
                           color: Colors.black,
                           onPressed: () async {
+                            _launchUrl();
                             // speak();
                             //your custom configuration
                             await ftts.setLanguage("ar-sa");
@@ -219,13 +225,13 @@ class _DisabilityViewState extends State<DisabilityView> {
                         ),
                       ),
                       Center(
-                         child: getWordWidget()
-                      //    AppText(
-                      //   resultWords ?? '',
-                      //   fontSize: 22,
-                      //   color: Colors.black,
-                      //   fontWeight: FontWeight.bold,
-                      // )
+                          child: getWordWidget()
+                        //    AppText(
+                        //   resultWords ?? '',
+                        //   fontSize: 22,
+                        //   color: Colors.black,
+                        //   fontWeight: FontWeight.bold,
+                        // )
                       ),
 
                     ],
@@ -272,7 +278,7 @@ class _DisabilityViewState extends State<DisabilityView> {
       final storageReference = FirebaseStorage.instance.ref().child('videos');
       // final uploadTask = storageReference.putFile(videoFile!);
       storageReference.putFile(videoFile!).then((val) async {
-        if(val.state==TaskState.success){
+        if (val.state == TaskState.success) {
           String videoUrl = await storageReference.getDownloadURL();
           print('vvvvvvvv  $videoUrl');
           ref.child('videoToText').set({
@@ -280,8 +286,8 @@ class _DisabilityViewState extends State<DisabilityView> {
             'word': '',
             'videoUrl': videoUrl
           }).then((val) {
-              print('vvvvvvvv 2 $videoUrl');
-              getWordsString();
+            print('vvvvvvvv 2 $videoUrl');
+            getWordsString();
           });
         }
       });
@@ -356,25 +362,26 @@ class _DisabilityViewState extends State<DisabilityView> {
   }
 
   void getWordsString() {
-    try{
+    try {
       FirebaseDatabase.instance
           .reference()
           .child("videoToText")
-         .onValue.listen((event) {
+          .onValue
+          .listen((event) {
         Get.log('word text =>${event.snapshot.toString()}');
-          setState(() {
-            WordModel model = WordModel.fromJson(event.snapshot.value);
-            Get.log('word text =>${model.word}');
-            resultWords = model.word;
-          });
+        setState(() {
+          WordModel model = WordModel.fromJson(event.snapshot.value);
+          Get.log('word text =>${model.word}');
+          resultWords = model.word;
+        });
       });
-    }catch(err){
+    } catch (err) {
       Get.log('word text =>${err}');
     }
   }
 
   getWordWidget() {
-    if (isLoading || resultWords == null || resultWords == '') {
+    if (isLoading && resultWords == '') {
       Get.log('step1 => ' + resultWords.toString());
       return Center(
         child: JumpingDotsProgressIndicator(
@@ -382,14 +389,20 @@ class _DisabilityViewState extends State<DisabilityView> {
           numberOfDots: 4,
         ),
       );
-    } else if (!isLoading && resultWords != null) {
+    } else if (!isLoading && resultWords != null||!isLoading && resultWords == null) {
       Get.log('step2');
       return AppText(
-        resultWords ?? '',
+        resultWords ?? 'empty',
         fontSize: 22,
         color: Colors.black,
         fontWeight: FontWeight.bold,
       );
+    }
+  }
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url!)) {
+      throw 'Could not launch $_url';
     }
   }
 }

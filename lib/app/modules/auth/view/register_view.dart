@@ -39,15 +39,15 @@ class RegisterView extends GetView<AuthController> {
                 size: 35,
               )) ,
           actions: [
-            IconButton(
-                onPressed: () {
-                  Get.off(() => const HomeView());
-                },
-                icon: const Icon(
-                  Icons.settings,
-                  color: Colors.black,
-                  size: 35,
-                )),
+            // IconButton(
+            //     onPressed: () {
+            //       Get.off(() => const HomeView());
+            //     },
+            //     icon: const Icon(
+            //       Icons.settings,
+            //       color: Colors.black,
+            //       size: 35,
+            //     )),
 
           ],
         ),
@@ -98,7 +98,7 @@ class RegisterView extends GetView<AuthController> {
                   CustomTextFormField(
                     hintText: 'phone_hint'.tr,
                     controller: controller.phoneController,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     validateEmptyText: 'empty'.tr,
                     prefixIcon: Icons.phone,
                     radius: 15,

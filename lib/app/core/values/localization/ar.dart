@@ -111,7 +111,13 @@ Map<String, String> ar = {
   'female':'انثي',
   'hearing_impairment':'ذوي الاعاقة السمعيه',
   'user':'المستخدم',
-  'conver':'تحويل'
+  'conver':'تحويل',
+  'from_hint':'الي :',
+  'to_hint':'من :',
+  'subject':'الموضوع :',
+  'cancel':'الغاء',
+  'send':'ارسال',
+  'qodra':'قدرة'
 
 
 

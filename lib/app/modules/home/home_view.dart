@@ -23,11 +23,11 @@ class _HomeViewState extends State<HomeView> {
         elevation: 0,
         backgroundColor: kBackgroundColor,
         leading: IconButton(
-          icon:const Icon(Icons.menu,color: kPurpleColor,size: 35,),
+          icon:const Icon(Icons.settings,color: kPurpleColor,size: 40,),
           onPressed: () => _key.currentState!.openDrawer(),
         ),
         actions: [
-          IconButton(onPressed: (){}, icon:  const Icon(Icons.camera_alt,color: kPurpleColor,size: 35,))
+          // IconButton(onPressed: (){}, icon:  const Icon(Icons.camera_alt,color: kPurpleColor,size: 35,))
         ],
       ),
       body: Container(

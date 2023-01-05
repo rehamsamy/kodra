@@ -109,7 +109,13 @@ Map<String, String> en = {
   'sign_out':'ٍSignOut',
   'hearing_impairment':'Hearing Impairment',
   'user':'User',
-  'conver':'Convert'
+  'conver':'Convert',
+'from_hint':'From :',
+'to_hint':'To :',
+  'subject':'Subject :',
+'cancel':'Cancel',
+'send':'Send',
+  'qodra':'Qodra'
 
 
 };

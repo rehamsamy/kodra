@@ -27,7 +27,7 @@ class AuthApis {
         Get.log('save data to storage'+loginModel.toString());
 
       }else if(x.statusCode==400){
-        print('step2');
+        print('step2  '+email.toString() +'      '+password);
          var y = json.decode(x.body);
         loginModel=LoginModel.fromJson(y);
         // loginModel=y;
