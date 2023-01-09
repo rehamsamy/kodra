@@ -117,7 +117,10 @@ Map<String, String> ar = {
   'subject':'الموضوع :',
   'cancel':'الغاء',
   'send':'ارسال',
-  'qodra':'قدرة'
+  'qodra':'قدرة',
+  'contact_us':'اتصل بنا',
+  'color':'اللون',
+  'language':'اللغة'
 
 
 

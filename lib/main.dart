@@ -21,6 +21,7 @@ class CrazyApp extends StatefulWidget {
   State<CrazyApp> createState() => _CrazyAppState();
 }
 class _CrazyAppState extends State<CrazyApp> {
+  final ValueNotifier<ThemeMode> _notifier = ValueNotifier(ThemeMode.light);
   @override
   Widget build(BuildContext context) {
     final navigatorKey = GlobalKey<NavigatorState>();
@@ -32,30 +33,37 @@ class _CrazyAppState extends State<CrazyApp> {
           Directionality(
             textDirection: LocalStorage.isAr ? TextDirection.rtl :
             TextDirection.ltr,
-            child: GetMaterialApp(
-                navigatorKey: navigatorKey,
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('en', 'US'), // include country code too
-                  Locale('ar', 'EG'), // include country code too
-                ],
-                // locale:  Locale('ar', 'EG'),
-                defaultTransition: Transition.cupertino,
-                transitionDuration: const Duration(milliseconds: 500),
-                translations: Translation(),
-                initialBinding: GetBinding(),
-                locale:
-                LocalStorage.isAr ? const Locale('ar') : const Locale('en'),
-                fallbackLocale: const Locale('en'),
-                title: 'Qodra',
-                theme: ThemeData(
-                    primarySwatch: Colors.green, platform: TargetPlatform.iOS),
-                home:  SplashScreen()
+            child: ValueListenableBuilder(
+                valueListenable: _notifier,
+              builder: (context,mode,_) {
+                return GetMaterialApp(
+                    navigatorKey: navigatorKey,
+                    debugShowCheckedModeBanner: false,
+                    localizationsDelegates: const [
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    supportedLocales: const [
+                      Locale('en', 'US'), // include country code too
+                      Locale('ar', 'EG'), // include country code too
+                    ],
+                    // locale:  Locale('ar', 'EG'),
+                    defaultTransition: Transition.cupertino,
+                    transitionDuration: const Duration(milliseconds: 500),
+                    translations: Translation(),
+                    initialBinding: GetBinding(),
+                    locale:
+                    LocalStorage.isAr ? const Locale('ar') : const Locale('en'),
+                    fallbackLocale: const Locale('en'),
+                    title: 'Qodra',
+                    darkTheme: ThemeData.dark(),
+                    themeMode: mode,
+                    theme: ThemeData(
+                        primarySwatch: Colors.green, platform: TargetPlatform.iOS),
+                    home:  SplashScreen()
+                );
+              }
             ),
           ),
 
