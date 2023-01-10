@@ -36,10 +36,7 @@ class _CrazyAppState extends State<CrazyApp> {
             Directionality(
               textDirection: LocalStorage.isAr ? TextDirection.rtl :
               TextDirection.ltr,
-              child: ValueListenableBuilder(
-                  valueListenable: _notifier,
-                  builder: (context, mode, _) {
-                    return GetMaterialApp(
+              child: GetMaterialApp(
                         navigatorKey: navigatorKey,
                         debugShowCheckedModeBanner: false,
                         localizationsDelegates: const [
@@ -61,22 +58,22 @@ class _CrazyAppState extends State<CrazyApp> {
                             'en'),
                         fallbackLocale: const Locale('en'),
                         title: 'Qodra',
-                       theme: darkThemeData(context),
-                        // darkTheme:ThemeData(
-                        //   brightness: Brightness.dark,
-                        //   /* dark theme settings */
-                        // ),
-                        // ThemeData(
-                        //     primarySwatch: Colors.green,
-                        //     platform: TargetPlatform.iOS),
-                        home: const SplashScreen()
-                    );
-                  }
-              ),
+                       themeMode: ThemeMode.dark,
+                        home: MaterialApp(
+                            themeMode: ThemeMode.dark,
+                            darkTheme:ThemeData(
+                                brightness: Brightness.dark,
+                                canvasColor: Colors.black,
+                               primaryColor:Colors.pink
+                              /* dark theme settings */
+                            ),
+                            home: const SplashScreen())
+
+
             ),
 
 
-      );
+      ));
   }
   ThemeData lightThemeData(BuildContext context) {
     return ThemeData.light().copyWith(
