@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  decoration:  const BoxDecoration(
+                  decoration:   BoxDecoration(
                     gradient:LinearGradient(
                         colors: [
                           kPurpleColor,

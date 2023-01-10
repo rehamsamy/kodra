@@ -10,13 +10,19 @@ class LocalStorage {
   // static const String apiToken = 'token';
   static const String loginKey = 'loginKey';
   static const String userModel = 'userModel';
-
+  static const String themeKey = 'themeKey';
   static Future init() async {
     await GetStorage.init();
     if (GetStorage().read(languageKey) == null) {
       await setString(languageKey, 'ar');
     }
   }
+
+  static setTheme(bool value)async{
+    await setBool(themeKey, value);
+  }
+
+  static bool getTheme= getBool(themeKey);
 
   // static String getUserToken = getString(apiToken) ?? 'No Token';
 

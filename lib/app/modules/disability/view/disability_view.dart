@@ -83,7 +83,7 @@ class _DisabilityViewState extends State<DisabilityView> {
                 onPressed: () {
                   Get.off(() => const HomeView());
                 },
-                icon: const Icon(
+                icon:  Icon(
                   Icons.home,
                   color: kPurpleColor,
                   size: 35,
@@ -123,7 +123,7 @@ class _DisabilityViewState extends State<DisabilityView> {
                             onPressed: () {
                               _showChoiceDialog(context);
                             },
-                            icon: const Icon(
+                            icon:  Icon(
                               Icons.video_call_outlined,
                               size: 40,
                               color: kPurpleColor,
@@ -322,7 +322,7 @@ class _DisabilityViewState extends State<DisabilityView> {
                       Navigator.pop(context);
                     },
                     title: const Text("Gallery"),
-                    leading: const Icon(
+                    leading:  Icon(
                       Icons.image,
                       color: kPurpleColor,
                     ),
@@ -338,8 +338,8 @@ class _DisabilityViewState extends State<DisabilityView> {
                       playVideo(videoFile ?? File(''));
                       Navigator.pop(context);
                     },
-                    title: const Text("Camera"),
-                    leading: const Icon(
+                    title:  Text("Camera"),
+                    leading:  Icon(
                       Icons.camera_alt_rounded,
                       color: kPurpleColor,
                     ),

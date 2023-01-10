@@ -6,12 +6,14 @@ import 'package:kodra/app/data/models/login_model.dart';
 import 'package:kodra/app/data/remote_data_source/auth_apis.dart';
 import 'package:kodra/app/modules/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
+import 'package:kodra/app/modules/auth/view/forget_password_view.dart';
 import 'package:kodra/app/modules/auth/view/register_view.dart';
 import 'package:kodra/app/modules/home/home_view.dart';
 import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:kodra/app/shared/app_text.dart';
 import 'package:kodra/app/shared/app_text_field.dart';
 import 'package:kodra/app/shared/snack_bar.dart';
+import 'package:kodra/app/views/app_dialog.dart';
 import 'package:kodra/app_constant.dart';
 
 class LoginView extends GetView<AuthController> {
@@ -19,7 +21,7 @@ class LoginView extends GetView<AuthController> {
   @override
  final AuthController controller=Get.find();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -63,7 +65,7 @@ class LoginView extends GetView<AuthController> {
                         ),
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          decoration:  const BoxDecoration(
+                          decoration:   BoxDecoration(
                             gradient:LinearGradient(
                                 colors: [
                                   kPurpleColor,
@@ -139,7 +141,10 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                       const SizedBox(height: 20,),
-                     AppText('forget_password'.tr,color:Colors.blueAccent,fontSize: 20,)
+                     InkWell(onTap: (){
+                      showAppDialog(ctx, ForgetPasswordView());
+                     },
+                         child: AppText('forget_password'.tr,color:Colors.blueAccent,fontSize: 20,))
 
                     ],
                   ),

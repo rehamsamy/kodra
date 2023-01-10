@@ -69,7 +69,7 @@ class _UserViewState extends State<UserView> {
               onPressed: () {
                 Get.off(() => const HomeView());
               },
-              icon: const Icon(
+              icon:  Icon(
                 Icons.home,
                 color: kPurpleColor,
                 size: 35,
@@ -103,12 +103,12 @@ class _UserViewState extends State<UserView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding:  const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       IconButton(
                           onPressed: startListening,
-                          icon: const Icon(
+                          icon:  Icon(
                             Icons.keyboard_voice,
                             size: 35,
                             color: kPurpleColor,
@@ -211,7 +211,7 @@ class _UserViewState extends State<UserView> {
                       const SizedBox(
                         width: 15,
                       ),
-                      Icon(Icons.forward, size: 20, color: Colors.white),
+                      const Icon(Icons.forward, size: 20, color: Colors.white),
                     ],
                   ),
                 ),

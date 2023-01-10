@@ -118,7 +118,8 @@ Map<String, String> en = {
   'qodra':'Qodra',
   'contact_us':'Contact us !!',
 'color':'Color',
-  'language':'Language'
+  'language':'Language',
+  'check_email':'Send message to your email'
 
 
 

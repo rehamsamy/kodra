@@ -23,7 +23,7 @@ class _HomeViewState extends State<HomeView> {
         elevation: 0,
         backgroundColor: kBackgroundColor,
         leading: IconButton(
-          icon:const Icon(Icons.settings,color: kPurpleColor,size: 40,),
+          icon: Icon(Icons.settings,color: kPurpleColor,size: 40,),
           onPressed: () => _key.currentState!.openDrawer(),
         ),
         actions: [
@@ -49,7 +49,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   child: Container(
                     padding: const EdgeInsets.all(10),
-                    decoration:  const BoxDecoration(
+                    decoration:   BoxDecoration(
                       gradient:LinearGradient(
                         colors: [
                           kPurpleColor,

@@ -120,7 +120,8 @@ Map<String, String> ar = {
   'qodra':'قدرة',
   'contact_us':'اتصل بنا',
   'color':'اللون',
-  'language':'اللغة'
+  'language':'اللغة',
+  'check_email':'تم ارسال رساله عالميل الخاص بك'
 
 
 

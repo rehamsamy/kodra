@@ -138,7 +138,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 )
               : null,
           suffixText: widget.suffixText ?? '',
-          suffixStyle: const TextStyle(
+          suffixStyle:  TextStyle(
             color: kAccentColor,
             fontSize: 12,
           ),

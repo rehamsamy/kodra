@@ -72,9 +72,6 @@ class AuthApis {
     return loginModel;
   }
 
-
-
-
  Future<String ?> forgetPassword(String email) async {
     String ?mess;
     String url1 =

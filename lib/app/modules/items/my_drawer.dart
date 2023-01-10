@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kodra/app/core/get_binding.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
 import 'package:kodra/app/modules/auth/view/login_view.dart';
+import 'package:kodra/app/modules/items/controller/ItemController.dart';
 import 'package:kodra/app/modules/items/send_message.dart';
 import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:kodra/app/shared/app_text.dart';
@@ -16,7 +17,9 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+
   final ValueNotifier<ThemeMode> _notifier = ValueNotifier(ThemeMode.light);
+  ItemController controller=Get.find();
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -59,7 +62,6 @@ class _MyDrawerState extends State<MyDrawer> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          _notifier.value = mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
                         });
                       },
                       child: Container(
