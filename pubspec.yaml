@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_screenutil: ^5.5.4
   map_launcher: ^2.4.0
+#  flutter_restart: ^0.0.3
   #  firebase_messaging: ^13.1.0
   animate_do: ^2.1.0
   bot_toast: ^4.0.1
@@ -91,6 +92,7 @@ dependencies:
   progress_indicators: ^1.0.0
   firebase_storage: ^11.0.9
   video_player: ^2.4.7
+  flutter_phoenix: ^1.1.0
 
 
 

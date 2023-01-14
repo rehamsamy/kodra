@@ -19,6 +19,7 @@ class LocalStorage {
   }
 
   static setTheme(bool value)async{
+    // isDArk=value;
     await setBool(themeKey, value);
   }
 
@@ -27,6 +28,8 @@ class LocalStorage {
   // static String getUserToken = getString(apiToken) ?? 'No Token';
 
   static bool isAr = GetStorage().read(languageKey) == 'ar';
+
+  static bool isDArk = GetStorage().read(themeKey) ==true;
 
   static Future<void> saveLocale(String langCode) async {
     Get.log('lang  =>'+langCode);

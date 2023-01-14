@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:kodra/app/core/get_binding.dart';
 import 'package:kodra/app/data/storage/local_storage.dart';
 import 'package:kodra/app/modules/auth/view/login_view.dart';
@@ -62,6 +63,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     InkWell(
                       onTap: () {
                         setState(() {
+                          // controller.setIsDark(true);
+                          showChangeColorDialog(context);
                         });
                       },
                       child: Container(
@@ -133,7 +136,7 @@ class _MyDrawerState extends State<MyDrawer> {
         title: Center(
             child: AppText(
           'change_lang'.tr,
-          color: kPrimaryColor,
+          color: Colors.black,
         )),
         content: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -146,7 +149,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         width: cons.maxWidth * 0.8,
                         height: 40,
                         child: AppProgressButton(
-                          backgroundColor: kPrimaryColor,
+                          backgroundColor: kPurpleColor,
                           radius: 5,
                           onPressed: (val) {
                             Get.back();
@@ -163,7 +166,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         height: 40,
                         width: cons.maxWidth * 0.8,
                         child: AppProgressButton(
-                          backgroundColor: kPrimaryColor,
+                          backgroundColor: kPurpleColor,
                           radius: 5,
                           onPressed: (val) {
                             Get.back();
@@ -177,6 +180,64 @@ class _MyDrawerState extends State<MyDrawer> {
                       ),
                     ],
                   )),
+        ),
+      ),
+    );
+  }
+  void showChangeColorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Center(
+            child: AppText(
+              'change_color'.tr,
+              color: Colors.black,
+            )),
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 120,
+          child: LayoutBuilder(
+              builder: (_, cons) => Phoenix(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: cons.maxWidth * 0.8,
+                      height: 40,
+                      child: AppProgressButton(
+                        backgroundColor: kPurpleColor,
+                        radius: 5,
+                        onPressed: (val) {
+                          controller.setIsDark(true);
+                          // Phoenix.rebirth(context);
+                          Get.back();
+                        },
+                        child: const AppText(
+                          'Dark',
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      height: 40,
+                      width: cons.maxWidth * 0.8,
+                      child: AppProgressButton(
+                        backgroundColor: kPurpleColor,
+                        radius: 5,
+                        onPressed: (val) {
+                         controller.setIsDark(false);
+                         // Phoenix.rebirth(context);
+                        },
+                        child: const AppText(
+                          'Light',
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
         ),
       ),
     );
