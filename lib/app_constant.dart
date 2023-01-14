@@ -18,7 +18,6 @@ NetworkService networkService = NetworkService(
 
 const String kApiKey='AIzaSyAOexIWk0Z2ijFeDyS54THCQfbJAYV1zME';
  const String baseUrl = 'https://crazy-65aca-default-rtdb.firebaseio.com';
-
 // const String baseUrl='https://crazyfood-5f22c-default-rtdb.firebaseio.com';
  Color kPrimaryColor =LocalStorage.isDArk? const Color(0xffC0CCFF):const Color(0xffC05855);
  Color kBackColor1 = const Color(0xffE9F8EE);
