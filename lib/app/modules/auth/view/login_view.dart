@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:kodra/app/core/get_binding.dart';
-import 'package:kodra/app/data/models/login_model.dart';
-import 'package:kodra/app/data/remote_data_source/auth_apis.dart';
-import 'package:kodra/app/modules/auth/controller/auth_controller.dart';
+import 'package:qodra/app/core/get_binding.dart';
+import 'package:qodra/app/data/models/login_model.dart';
+import 'package:qodra/app/data/remote_data_source/auth_apis.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
-import 'package:kodra/app/modules/auth/view/forget_password_view.dart';
-import 'package:kodra/app/modules/auth/view/register_view.dart';
-import 'package:kodra/app/modules/home/home_view.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app/shared/app_text_field.dart';
-import 'package:kodra/app/shared/snack_bar.dart';
-import 'package:kodra/app/views/app_dialog.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/modules/auth/view/forget_password_view.dart';
+import 'package:qodra/app/modules/auth/view/register_view.dart';
+import 'package:qodra/app/modules/home/home_view.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app/shared/app_text_field.dart';
+import 'package:qodra/app/shared/snack_bar.dart';
+import 'package:qodra/app/views/app_dialog.dart';
+import 'package:qodra/app_constant.dart';
 
 class LoginView extends GetView<AuthController> {
   final GlobalKey<FormState>  _formKey = GlobalKey<FormState>();
@@ -29,7 +30,7 @@ class LoginView extends GetView<AuthController> {
           title:  AppText(
             'login'.tr,
             fontSize: 22,
-            color: Colors.black,
+            color:LocalStorage.isDArk?Colors.black:Colors.white,
           ),
           centerTitle: true,
           actions: [
@@ -68,8 +69,8 @@ class LoginView extends GetView<AuthController> {
                           decoration:   BoxDecoration(
                             gradient:LinearGradient(
                                 colors: [
-                                  kPurpleColor,
-                                  kUnSelectedColor
+                                  Color(0xffB86AD6),
+                                  Color(0xff757DB5)
                                 ]
                             ),
 
@@ -144,7 +145,7 @@ class LoginView extends GetView<AuthController> {
                      InkWell(onTap: (){
                       showAppDialog(ctx, ForgetPasswordView());
                      },
-                         child: AppText('forget_password'.tr,color:Colors.blueAccent,fontSize: 20,))
+                         child: AppText('forget_password'.tr,color:LocalStorage.isDArk?Colors.blueAccent:Colors.white,fontSize: 20,))
 
                     ],
                   ),

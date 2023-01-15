@@ -1,5 +1,5 @@
-import 'package:kodra/app/data/services/network_service.dart/dio_network_service.dart';
-import 'package:kodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/data/services/network_service.dart/dio_network_service.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,14 +19,14 @@ NetworkService networkService = NetworkService(
 const String kApiKey='AIzaSyAOexIWk0Z2ijFeDyS54THCQfbJAYV1zME';
  const String baseUrl = 'https://crazy-65aca-default-rtdb.firebaseio.com';
 // const String baseUrl='https://crazyfood-5f22c-default-rtdb.firebaseio.com';
- Color kPrimaryColor =LocalStorage.isDArk? const Color(0xffC0CCFF):const Color(0xffC05855);
+ Color kPrimaryColor =LocalStorage.isDArk? const Color(0xffC0CCFF):const Color(0xff2A3164);
  Color kBackColor1 = const Color(0xffE9F8EE);
- Color kAccentColor = LocalStorage.isDArk?const Color(0xffDA00FF):const Color(0xffC05855);
- Color kBackgroundColor =LocalStorage.isDArk? const Color(0xffD1DDFF):Color(0xffD1DD00);
- Color kBackgroundDarkColor =LocalStorage.isDArk? const Color(0xffBFCCFF):Color(0xffD1DD00);
- Color kUnSelectedColor = LocalStorage.isDArk?const Color(0xff757DB5):Color(0xffD1DD00);
+ Color kAccentColor = LocalStorage.isDArk?const Color(0xffDA00FF):const Color(0xff2A3164);
+ Color kBackgroundColor =LocalStorage.isDArk? const Color(0xffD1DDFF):Color(0xff2A3164);
+ Color kBackgroundDarkColor =LocalStorage.isDArk? const Color(0xffBFCCFF):Color(0xff2A3164);
+ Color kUnSelectedColor = LocalStorage.isDArk?const Color(0xff757DB5):Color(0xff2A3164);
 const Color kAuthGreyColor = Color(0xffF6F6F6);
- Color kPurpleColor =LocalStorage.isDArk? const Color(0xffB86AD6):const Color(0xffC05855);
+ Color kPurpleColor =LocalStorage.isDArk? const Color(0xffB86AD6):const Color(0xff2A3164);
  Color kBlueLightColor =LocalStorage.isDArk? const Color(0xffE9F8EE):Colors.black;
 const Color kGreyColor=Color(0xffDADADA);
 

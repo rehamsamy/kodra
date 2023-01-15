@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kodra/app/modules/home/home_view.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app/shared/app_text_field.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/home/home_view.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app/shared/app_text_field.dart';
+import 'package:qodra/app_constant.dart';
 import 'package:get/get.dart';
 
 class SendMessageView extends StatelessWidget{
@@ -20,7 +21,7 @@ final TextEditingController subjectController=TextEditingController();
        title:  AppText(
          'qodra'.tr,
          fontSize: 22,
-         color: Colors.black,
+           color:LocalStorage.isDArk?Colors.black:Colors.white,
        ),
        centerTitle: true,
        backgroundColor: kBackgroundDarkColor,
@@ -28,9 +29,9 @@ final TextEditingController subjectController=TextEditingController();
            onPressed: () {
              Get.off(() =>  const HomeView());
            },
-           icon: const Icon(
+           icon:  Icon(
              Icons.arrow_back_rounded,
-             color: Colors.black,
+             color:LocalStorage.isDArk?Colors.black:Colors.white,
              size: 35,
            )) ,
        actions: [

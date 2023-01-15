@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app_text.dart';

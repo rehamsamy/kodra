@@ -10,7 +10,7 @@
         </intent>
     </queries>
    <application
-        android:label="kodra"
+        android:label="qodra"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

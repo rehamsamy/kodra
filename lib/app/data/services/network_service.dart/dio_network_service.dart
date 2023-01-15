@@ -1,7 +1,8 @@
-import 'package:kodra/app/data/services/network_service.dart/logging_interceptor.dart';
+// import 'package:kodra/app/data/services/network_service.dart/logging_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:qodra/app/data/services/network_service.dart/logging_interceptor.dart';
 part 'dio_network_service.freezed.dart';
 
 

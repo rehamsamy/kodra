@@ -1,4 +1,4 @@
-import 'package:kodra/app/core/values/assets.dart';
+import 'package:qodra/app/core/values/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

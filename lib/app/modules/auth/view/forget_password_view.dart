@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
-import 'package:kodra/app/core/get_binding.dart';
-import 'package:kodra/app/data/remote_data_source/auth_apis.dart';
-import 'package:kodra/app/modules/auth/view/login_view.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_text_field.dart';
+import 'package:qodra/app/core/get_binding.dart';
+import 'package:qodra/app/data/remote_data_source/auth_apis.dart';
+import 'package:qodra/app/modules/auth/view/login_view.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_text_field.dart';
 import 'package:get/get.dart';
-import 'package:kodra/app/shared/snack_bar.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/shared/snack_bar.dart';
+import 'package:qodra/app_constant.dart';
 class ForgetPasswordView extends StatelessWidget {
   var emailController;
   final GlobalKey<FormState>  _formKey = GlobalKey<FormState>();

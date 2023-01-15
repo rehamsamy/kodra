@@ -119,8 +119,11 @@ Map<String, String> en = {
   'contact_us':'Contact us !!',
 'color':'Color',
   'language':'Language',
-  'check_email':'Send message to your email'
-
-
-
+  'check_email':'Send message to your email',
+  'write_here':'Write here..',
+  'convert':'Convert',
+  'empty':'Empty',
+  'choose_image':'Choose image',
+  'gallery':'Gallery',
+  'camera':'Camera'
 };

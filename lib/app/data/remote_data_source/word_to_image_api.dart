@@ -1,5 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:kodra/app/data/models/word_model.dart';
+import 'package:qodra/app/data/models/word_model.dart';
 class WordToImageService{
 
 

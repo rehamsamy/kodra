@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:kodra/app/data/models/word_model.dart';
-import 'package:kodra/app/modules/home/home_view.dart';
+import 'package:qodra/app/data/models/word_model.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/home/home_view.dart';
 import 'package:get/get.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app/shared/snack_bar.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app/shared/snack_bar.dart';
+import 'package:qodra/app_constant.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:text_to_speech/text_to_speech.dart';
@@ -172,9 +173,9 @@ class _DisabilityViewState extends State<DisabilityView> {
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
-                            children: const [
+                            children:  [
                               AppText(
-                                'تحويل',
+                                'convert'.tr,
                                 color: Colors.white,
                                 fontSize: 18,
                               ),
@@ -204,7 +205,7 @@ class _DisabilityViewState extends State<DisabilityView> {
                             Icons.search_outlined,
                             size: 40,
                           ),
-                          color: Colors.black,
+                          color: LocalStorage.isDArk?Colors.black:Colors.white,
                           onPressed: () async {
                             _launchUrl();
                             // speak();
@@ -303,8 +304,8 @@ class _DisabilityViewState extends State<DisabilityView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text(
-              "اختر مصدر الصورة",
+            title:  Text(
+              'choose_image'.tr,
               style: TextStyle(color: Colors.blue),
             ),
             content: SingleChildScrollView(
@@ -321,7 +322,7 @@ class _DisabilityViewState extends State<DisabilityView> {
                       playVideo(videoFile ?? File(''));
                       Navigator.pop(context);
                     },
-                    title: const Text("Gallery"),
+                    title:  Text("gallery".tr),
                     leading:  Icon(
                       Icons.image,
                       color: kPurpleColor,
@@ -338,7 +339,7 @@ class _DisabilityViewState extends State<DisabilityView> {
                       playVideo(videoFile ?? File(''));
                       Navigator.pop(context);
                     },
-                    title:  Text("Camera"),
+                    title:  Text("camera".tr),
                     leading:  Icon(
                       Icons.camera_alt_rounded,
                       color: kPurpleColor,
@@ -392,9 +393,9 @@ class _DisabilityViewState extends State<DisabilityView> {
     } else if (!isLoading && resultWords != null||!isLoading && resultWords == null) {
       Get.log('step2');
       return AppText(
-        resultWords ?? 'empty',
+        resultWords ?? 'empty'.tr,
         fontSize: 22,
-        color: Colors.black,
+        color: LocalStorage.isDArk?Colors.black:Colors.white,
         fontWeight: FontWeight.bold,
       );
     }

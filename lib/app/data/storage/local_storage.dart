@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
-import 'package:kodra/app/data/models/login_model.dart';
+import 'package:qodra/app/data/models/login_model.dart';
 
 class LocalStorage {
   static final GetStorage _box = GetStorage();

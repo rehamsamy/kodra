@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kodra/app/data/models/login_model.dart';
-import 'package:kodra/app/data/storage/local_storage.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/data/models/login_model.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app_constant.dart';
 
 
 class AuthApis {

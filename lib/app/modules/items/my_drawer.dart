@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:kodra/app/core/get_binding.dart';
-import 'package:kodra/app/data/storage/local_storage.dart';
-import 'package:kodra/app/modules/auth/view/login_view.dart';
-import 'package:kodra/app/modules/items/controller/ItemController.dart';
-import 'package:kodra/app/modules/items/send_message.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/core/get_binding.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/auth/view/login_view.dart';
+import 'package:qodra/app/modules/items/controller/ItemController.dart';
+import 'package:qodra/app/modules/items/send_message.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app_constant.dart';
 import 'package:get/get.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -208,7 +208,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         backgroundColor: kPurpleColor,
                         radius: 5,
                         onPressed: (val) {
-                          controller.setIsDark(true);
+                          controller.setIsDark(false);
                           // Phoenix.rebirth(context);
                           Get.back();
                         },
@@ -226,7 +226,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         backgroundColor: kPurpleColor,
                         radius: 5,
                         onPressed: (val) {
-                         controller.setIsDark(false);
+                         controller.setIsDark(true);
                          // Phoenix.rebirth(context);
                         },
                         child: const AppText(

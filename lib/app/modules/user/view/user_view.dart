@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:kodra/app/data/models/word_model.dart';
-import 'package:kodra/app/data/remote_data_source/word_to_image_api.dart';
-import 'package:kodra/app/modules/home/home_view.dart';
+import 'package:qodra/app/data/models/word_model.dart';
+import 'package:qodra/app/data/remote_data_source/word_to_image_api.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/home/home_view.dart';
 import 'package:get/get.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_cached_image.dart';
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app/shared/app_text_field.dart';
-import 'package:kodra/app/shared/snack_bar.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_cached_image.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app/shared/app_text_field.dart';
+import 'package:qodra/app/shared/snack_bar.dart';
+import 'package:qodra/app_constant.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
@@ -27,7 +28,7 @@ class _UserViewState extends State<UserView> {
   String? imageUrl;
   bool _hasSpeech = false;
 
-  String lastWords = "initial";
+  String lastWords = "empty".tr;
 
   String lastError = "";
 
@@ -38,7 +39,7 @@ class _UserViewState extends State<UserView> {
   @override
   void initState() {
     super.initState();
-    initSpeechState();
+    // initSpeechState();
   }
 
   Future<void> initSpeechState() async {
@@ -106,13 +107,16 @@ class _UserViewState extends State<UserView> {
                   padding:  const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
-                      IconButton(
-                          onPressed: startListening,
-                          icon:  Icon(
-                            Icons.keyboard_voice,
-                            size: 35,
-                            color: kPurpleColor,
-                          )),
+                      Visibility(
+                   visible:false,
+                        child: IconButton(
+                            onPressed: startListening,
+                            icon:  Icon(
+                              Icons.keyboard_voice,
+                              size: 35,
+                              color: kPurpleColor,
+                            )),
+                      ),
                       Expanded(
                         child: CustomTextFormField(
                           backgroundColor: Colors.grey,
@@ -120,10 +124,10 @@ class _UserViewState extends State<UserView> {
                           horizontalPadding: 0,
                           keyboardType: TextInputType.text,
                           controller: wordController,
-                          text: 'اكتب هنا',
+                          text: 'write_here'.tr,
                           validateEmptyText: 'empty'.tr,
                           radius: 10,
-                          hintText: 'اكتب هنا',
+                          hintText:'write_here'.tr,
                         ),
                       ),
                       // IconButton(
@@ -275,7 +279,7 @@ class _UserViewState extends State<UserView> {
                 child: AppText(
               lastWords,
               fontSize: 22,
-              color: Colors.black,
+              color: LocalStorage.isDArk?Colors.black:Colors.white,
               fontWeight: FontWeight.bold,
             )),
           )),

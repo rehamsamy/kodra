@@ -1,13 +1,14 @@
-import 'package:kodra/app/core/get_binding.dart';
-import 'package:kodra/app/core/values/localization/translation.dart';
-import 'package:kodra/app/data/storage/local_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:kodra/app/modules/items/splash_screen.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/core/get_binding.dart';
+import 'package:qodra/app/core/values/localization/translation.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/items/splash_screen.dart';
+import 'package:qodra/app_constant.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

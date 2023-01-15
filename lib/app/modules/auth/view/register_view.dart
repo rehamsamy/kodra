@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:kodra/app/data/models/login_model.dart';
-import 'package:kodra/app/data/remote_data_source/auth_apis.dart';
-import 'package:kodra/app/modules/auth/controller/auth_controller.dart';
+import 'package:qodra/app/data/models/login_model.dart';
+import 'package:qodra/app/data/remote_data_source/auth_apis.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
-import 'package:kodra/app/modules/auth/view/gender_view.dart';
-import 'package:kodra/app/modules/auth/view/login_view.dart';
-import 'package:kodra/app/modules/home/home_view.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app/shared/app_text_field.dart';
-import 'package:kodra/app/shared/snack_bar.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/modules/auth/view/gender_view.dart';
+import 'package:qodra/app/modules/auth/view/login_view.dart';
+import 'package:qodra/app/modules/home/home_view.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app/shared/app_text_field.dart';
+import 'package:qodra/app/shared/snack_bar.dart';
+import 'package:qodra/app_constant.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+
 
 class RegisterView extends GetView<AuthController> {
   String gender = 'male';
@@ -25,7 +28,7 @@ class RegisterView extends GetView<AuthController> {
           title:  AppText(
             'register'.tr,
             fontSize: 22,
-            color: Colors.black,
+            color: LocalStorage.isDArk?Colors.black:Colors.white,
           ),
           centerTitle: true,
           backgroundColor: kBackgroundDarkColor,
@@ -33,9 +36,9 @@ class RegisterView extends GetView<AuthController> {
               onPressed: () {
                 Get.off(() =>  LoginView());
               },
-              icon: const Icon(
+              icon:  Icon(
                 Icons.arrow_back_rounded,
-                color: Colors.black,
+                color: LocalStorage.isDArk?Colors.black:Colors.white,
                 size: 35,
               )) ,
           actions: [
@@ -107,7 +110,7 @@ class RegisterView extends GetView<AuthController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppText('gender'.tr,color: Colors.black,fontSize: 22,),
+                      AppText('gender'.tr,color: LocalStorage.isDArk?Colors.black:Colors.white,fontSize: 22,),
                       const SizedBox(width: 15,),
                       GenderView(onGenderChanged: (isMale) {
                         isMale ? gender = 'male' : gender = 'female';

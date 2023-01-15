@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:kodra/app/core/get_binding.dart';
-import 'package:kodra/app/data/storage/local_storage.dart';
-import 'package:kodra/app/modules/auth/view/login_view.dart';
-import 'package:kodra/app/modules/home/home_view.dart';
-import 'package:kodra/app/shared/AnimatedWidgets.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/core/get_binding.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/auth/view/login_view.dart';
+import 'package:qodra/app/modules/home/home_view.dart';
+import 'package:qodra/app/shared/AnimatedWidgets.dart';
+import 'package:qodra/app_constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -53,8 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   decoration:   BoxDecoration(
                     gradient:LinearGradient(
                         colors: [
-                          kPurpleColor,
-                          kUnSelectedColor
+                          Color(0xffB86AD6),
+                          Color(0xff757DB5)
                         ]
                     ),
 

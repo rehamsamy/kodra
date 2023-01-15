@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:kodra/app/shared/app_text.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/shared/app_text.dart';
 
 class GenderView extends StatefulWidget {
   final Function(bool isMale) onGenderChanged;
@@ -37,7 +38,7 @@ class _GenderViewState extends State<GenderView> {
         ),
         AppText(
           'male'.tr,
-          color: Colors.black,
+          color: LocalStorage.isDArk?Colors.black:Colors.white,
         ),
         const SizedBox(width: 20),
         Radio(
@@ -55,7 +56,7 @@ class _GenderViewState extends State<GenderView> {
         ),
         AppText(
           'female'.tr,
-          color: Colors.black,
+          color: LocalStorage.isDArk?Colors.black:Colors.white,
         )
       ],
     );

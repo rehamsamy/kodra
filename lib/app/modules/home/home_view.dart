@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kodra/app/core/get_binding.dart';
-import 'package:kodra/app/modules/disability/view/disability_view.dart';
-import 'package:kodra/app/modules/items/my_drawer.dart';
-import 'package:kodra/app/modules/user/view/user_view.dart';
-import 'package:kodra/app/shared/app_buttons/app_progress_button.dart';
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/core/get_binding.dart';
+import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/disability/view/disability_view.dart';
+import 'package:qodra/app/modules/items/controller/ItemController.dart';
+import 'package:qodra/app/modules/items/my_drawer.dart';
+import 'package:qodra/app/modules/user/view/user_view.dart';
+import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app_constant.dart';
 import 'package:get/get.dart';
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 class _HomeViewState extends State<HomeView> {
+  final controller=Get.put(ItemController());
   bool isLogin = true;
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
@@ -23,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
           elevation: 0,
           backgroundColor: kBackgroundColor,
           leading: IconButton(
-            icon: Icon(Icons.settings,color: kPurpleColor,size: 40,),
+            icon: Icon(Icons.settings,color: LocalStorage.isDArk?kPurpleColor:Colors.white,size: 40,),
             onPressed: () => _key.currentState!.openDrawer(),
           ),
           actions: [
@@ -52,8 +55,8 @@ class _HomeViewState extends State<HomeView> {
                       decoration:   BoxDecoration(
                         gradient:LinearGradient(
                           colors: [
-                            kPurpleColor,
-                            kUnSelectedColor
+                            Color(0xffB86AD6),
+                            Color(0xff757DB5)
                           ]
                         ),
 

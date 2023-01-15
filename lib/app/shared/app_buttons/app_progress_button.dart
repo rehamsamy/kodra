@@ -1,6 +1,6 @@
 
-import 'package:kodra/app/shared/app_text.dart';
-import 'package:kodra/app_constant.dart';
+import 'package:qodra/app/shared/app_text.dart';
+import 'package:qodra/app_constant.dart';
 import 'package:flutter/material.dart';
 
 class AppProgressButton extends StatefulWidget {

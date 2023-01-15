@@ -118,10 +118,16 @@ Map<String, String> ar = {
   'cancel':'الغاء',
   'send':'ارسال',
   'qodra':'قدرة',
-  'contact_us':'اتصل بنا',
+  'contact_us':'تواصل معنا!',
   'color':'اللون',
   'language':'اللغة',
-  'check_email':'تم ارسال رساله عالميل الخاص بك'
+  'check_email':'تم ارسال رساله عالميل الخاص بك',
+  'write_here':'اكتب هنا',
+  'convert':'تحويل',
+  'empty':'فارغ',
+  'choose_image':'اختر مصدر الصورة',
+  'gallery':'معرش الصور',
+  'camera':'الكاميرا'
 
 
 
