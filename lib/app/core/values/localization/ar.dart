@@ -79,6 +79,7 @@ Map<String, String> ar = {
   'order_message':'اطلب ماتحتاجه من التطبيق واحصل علي الخصم',
   'change_password':'تغيير كلمة المرور',
   'change_lang':'تغيير اللغة',
+  'change_color':'تغيير اللون',
   'account_info':'البيانات الشخصية',
   'old_password':'كلمة المرور القديمة',
   'new_password':'كلمة المرور الجديدة',

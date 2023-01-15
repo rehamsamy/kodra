@@ -125,5 +125,6 @@ Map<String, String> en = {
   'empty':'Empty',
   'choose_image':'Choose image',
   'gallery':'Gallery',
-  'camera':'Camera'
+  'camera':'Camera',
+  'change_color':'Change Color',
 };
