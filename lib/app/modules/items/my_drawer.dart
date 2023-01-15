@@ -11,7 +11,8 @@ import 'package:qodra/app_constant.dart';
 import 'package:get/get.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+  int flag;
+  MyDrawer(this.flag);
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -84,7 +85,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.off(() => SendMessageView());
+                        Get.off(() => SendMessageView(widget.flag));
                       },
                       child: Container(
                         width: 200,

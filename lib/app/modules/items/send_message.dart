@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:qodra/app/core/get_binding.dart';
 import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/auth/view/login_view.dart';
 import 'package:qodra/app/modules/home/home_view.dart';
 import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:qodra/app/shared/app_text.dart';
@@ -13,6 +15,8 @@ final GlobalKey<FormState>  _formKey = GlobalKey<FormState>();
 final TextEditingController fromController=TextEditingController();
 final TextEditingController toController=TextEditingController();
 final TextEditingController subjectController=TextEditingController();
+int flag;
+SendMessageView(this.flag);
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -27,7 +31,11 @@ final TextEditingController subjectController=TextEditingController();
        backgroundColor: kBackgroundDarkColor,
        leading:IconButton(
            onPressed: () {
-             Get.off(() =>  const HomeView());
+             Get.log('flag  => '+flag.toString());
+              flag==1? Get.offAll(() => LoginView(),binding: GetBinding()): Get.to(() =>  const HomeView(),binding: GetBinding());
+             // flag==1? Navigator.of(context).push(MaterialPageRoute(builder: (_)=>LoginView())): Get.to(() =>  const HomeView());
+
+             // Get.off(() =>  const HomeView());
            },
            icon:  Icon(
              Icons.arrow_back_rounded,

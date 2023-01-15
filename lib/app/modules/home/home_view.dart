@@ -142,7 +142,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ),
-        drawer:  MyDrawer(),
+        drawer:  MyDrawer(2),
 
     );
   }
