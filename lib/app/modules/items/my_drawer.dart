@@ -9,6 +9,7 @@ import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:qodra/app/shared/app_text.dart';
 import 'package:qodra/app_constant.dart';
 import 'package:get/get.dart';
+import 'package:restart_app/restart_app.dart';
 
 class MyDrawer extends StatefulWidget {
   int flag;
@@ -102,22 +103,25 @@ class _MyDrawerState extends State<MyDrawer> {
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        LocalStorage.signOut();
-                        Get.offAll(() => LoginView(), binding: GetBinding());
-                      },
-                      child: Container(
-                        width: 200,
-                        color: kGreyColor,
-                        height: 80,
-                        margin: const EdgeInsets.all(5),
-                        child: Center(
-                          child: AppText(
-                            'sign_out'.tr,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
+                    Visibility(
+                      visible:widget.flag==1?false:true,
+                      child: InkWell(
+                        onTap: () {
+                          LocalStorage.signOut();
+                          Get.offAll(() => LoginView(), binding: GetBinding());
+                        },
+                        child: Container(
+                          width: 200,
+                          color: kGreyColor,
+                          height: 80,
+                          margin: const EdgeInsets.all(5),
+                          child: Center(
+                            child: AppText(
+                              'sign_out'.tr,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
                           ),
                         ),
                       ),
@@ -153,8 +157,9 @@ class _MyDrawerState extends State<MyDrawer> {
                           backgroundColor: kPurpleColor,
                           radius: 5,
                           onPressed: (val) {
-                            Get.back();
+                            // Get.back();
                             onChangeLang('ar');
+                            Restart.restartApp();
                           },
                           child: const AppText(
                             'العربيه',
@@ -170,8 +175,10 @@ class _MyDrawerState extends State<MyDrawer> {
                           backgroundColor: kPurpleColor,
                           radius: 5,
                           onPressed: (val) {
-                            Get.back();
+                            // Get.back();
                             onChangeLang('en');
+                            Restart.restartApp();
+                            // Get.back();
                           },
                           child: const AppText(
                             'English',
@@ -255,7 +262,7 @@ class _MyDrawerState extends State<MyDrawer> {
   ];
 
   updateLanguage(Locale locale) {
-    Get.back();
+    // Get.back();
     Get.updateLocale(locale);
   }
 }
