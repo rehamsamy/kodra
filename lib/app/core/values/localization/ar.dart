@@ -121,7 +121,7 @@ Map<String, String> ar = {
   'contact_us':'تواصل معنا!',
   'color':'اللون',
   'language':'اللغة',
-  'check_email':'تم ارسال رساله عالميل الخاص بك',
+  'check_email':'تم ارسال رساله علي الايميل الخاص بك',
   'write_here':'اكتب هنا',
   'convert':'تحويل',
   'empty':'فارغ',
