@@ -42,7 +42,7 @@ class _DisabilityViewState extends State<DisabilityView> {
   late final File data;
   String? resultWords;
   bool isLoading = false;
-  late final Uri ? _url ;
+   Uri ? _url ;
   @override
   void initState() {
     if (videoFile != null) {

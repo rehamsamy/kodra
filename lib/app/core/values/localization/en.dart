@@ -104,6 +104,7 @@ Map<String, String> en = {
   'phone_hint':'Phone number',
   'gender':'Gender:',
   'male':'Male',
+
   'female':'Female',
   'register':'Register',
   'sign_out':'ٍSignOut',

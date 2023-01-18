@@ -129,7 +129,4 @@ Map<String, String> ar = {
   'choose_image':'اختر مصدر الصورة',
   'gallery':'معرش الصور',
   'camera':'الكاميرا'
-
-
-
 };
