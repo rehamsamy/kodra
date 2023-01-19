@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:qodra/app/core/get_binding.dart';
 import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/auth/view/login_view.dart';
 import 'package:qodra/app/modules/home/home_view.dart';
 import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:qodra/app/shared/app_text.dart';
 import 'package:qodra/app/shared/app_text_field.dart';
 import 'package:qodra/app_constant.dart';
 import 'package:get/get.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+
 
 class SendMessageView extends StatelessWidget{
 final GlobalKey<FormState>  _formKey = GlobalKey<FormState>();
 final TextEditingController fromController=TextEditingController();
 final TextEditingController toController=TextEditingController();
 final TextEditingController subjectController=TextEditingController();
+int flag;
+SendMessageView(this.flag);
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -27,7 +33,11 @@ final TextEditingController subjectController=TextEditingController();
        backgroundColor: kBackgroundDarkColor,
        leading:IconButton(
            onPressed: () {
-             Get.off(() =>  const HomeView());
+             Get.log('flag  => '+flag.toString());
+              flag==1? Get.offAll(() => LoginView(),binding: GetBinding()): Get.to(() =>  const HomeView(),binding: GetBinding());
+             // flag==1? Navigator.of(context).push(MaterialPageRoute(builder: (_)=>LoginView())): Get.to(() =>  const HomeView());
+
+             // Get.off(() =>  const HomeView());
            },
            icon:  Icon(
              Icons.arrow_back_rounded,
@@ -81,13 +91,43 @@ final TextEditingController subjectController=TextEditingController();
                  padding: const EdgeInsets.all(10.0),
                  child: Row(
                    children: [
-                     Expanded(child: AppProgressButton(onPressed: (AnimationController animationController){
-                     },
+                     Expanded(child: AppProgressButton(onPressed: (AnimationController animationController) async {
+                       String platformResponse;
+                       final Email email = Email(
+                         body: 'Email body',
+                         subject: 'Email subject',
+                         recipients: ['reham.samy20122@gmail.com'],
+                         // cc: ['cc@example.com'],
+                         // cc:['reham.samy20122@gmail.com'],
+                         // bcc: ['reham.samy20122@gmail.com'],
+                         // attachmentPaths: ['/path/to/attachment.zip'],
+                         isHTML: false,
+                       );
+
+                       try {
+                         await FlutterEmailSender.send(email);
+                         platformResponse = 'success';
+                       } catch (error) {
+                         print(error);
+                         platformResponse = error.toString();
+                       }
+                       print('fffffff  $platformResponse');
+
+                       // if (!mounted) return;
+
+                       ScaffoldMessenger.of(context).showSnackBar(
+                         SnackBar(
+                           content: Text('platformResponse'),
+                         ),
+                       );
+                       },
                        backgroundColor: Colors.white,textColor: Colors.black,
                        text: 'send'.tr,
                        radius: 20,)),
                      const SizedBox(width: 15,),
                      Expanded(child:  AppProgressButton(onPressed: (AnimationController animationController)async{
+
+
                      Get.off(()=>HomeView());
                      },
                        backgroundColor: Colors.white,textColor: Colors.black,

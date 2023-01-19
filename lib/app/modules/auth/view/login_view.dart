@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:qodra/app/modules/auth/view/forget_password_view.dart';
 import 'package:qodra/app/modules/auth/view/register_view.dart';
 import 'package:qodra/app/modules/home/home_view.dart';
+import 'package:qodra/app/modules/items/my_drawer.dart';
 import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
 import 'package:qodra/app/shared/app_text.dart';
 import 'package:qodra/app/shared/app_text_field.dart';
@@ -21,9 +22,11 @@ class LoginView extends GetView<AuthController> {
   final GlobalKey<FormState>  _formKey = GlobalKey<FormState>();
   @override
  final AuthController controller=Get.find();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext ctx) {
     return Scaffold(
+      key: _key,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: kBackgroundDarkColor,
@@ -32,8 +35,13 @@ class LoginView extends GetView<AuthController> {
             fontSize: 22,
             color:LocalStorage.isDArk?Colors.black:Colors.white,
           ),
+          leading:  IconButton(
+            icon: Icon(Icons.settings,color: LocalStorage.isDArk?kPurpleColor:Colors.white,size: 40,),
+            onPressed: () => _key.currentState!.openDrawer(),
+          ) ,
           centerTitle: true,
           actions: [
+
             // IconButton(
             //     onPressed: () {
             //       Get.off(() => const HomeView());
@@ -56,7 +64,7 @@ class LoginView extends GetView<AuthController> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       Card(
                         elevation: 20,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -66,7 +74,7 @@ class LoginView extends GetView<AuthController> {
                         ),
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          decoration:   BoxDecoration(
+                          decoration:   const BoxDecoration(
                             gradient:LinearGradient(
                                 colors: [
                                   Color(0xffB86AD6),
@@ -115,7 +123,7 @@ class LoginView extends GetView<AuthController> {
                                       email: controller.emailController.text,
                                       password: controller.codeController.text);
                                   if (model.expiresIn != null) {
-                                    Get.offAll(() => HomeView());
+                                    Get.offAll(() => const HomeView());
                                     showSnackBar('login_success'.tr);
                                     animationController.reverse();
                                   } else if (model.error?.message != null) {
@@ -153,6 +161,6 @@ class LoginView extends GetView<AuthController> {
               ),
             );
           }
-        ));
+        ),drawer:  MyDrawer(1),);
   }
 }

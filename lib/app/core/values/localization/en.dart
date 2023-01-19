@@ -9,6 +9,7 @@ Map<String, String> en = {
   'categories': 'Categories',
   'name': 'Name',
   'email': 'Email',
+  'code_hint':'enter password',
   'birth_date': 'BirthDate',
   'password': 'Password',
   'sign_in': 'Sign In',

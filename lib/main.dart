@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:qodra/app/core/get_binding.dart';
 import 'package:qodra/app/core/values/localization/translation.dart';
 import 'package:qodra/app/data/storage/local_storage.dart';
+import 'package:qodra/app/modules/auth/controller/auth_controller.dart';
 import 'package:qodra/app/modules/items/splash_screen.dart';
 import 'package:qodra/app_constant.dart';
 
@@ -29,6 +30,7 @@ class CrazyApp extends StatefulWidget {
 class _CrazyAppState extends State<CrazyApp> {
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(()=>AuthController());
     final navigatorKey = GlobalKey<NavigatorState>();
     return Directionality(
       textDirection: LocalStorage.isAr ? TextDirection.rtl : TextDirection.ltr,
