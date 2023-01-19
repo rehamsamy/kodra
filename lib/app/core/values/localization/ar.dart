@@ -127,6 +127,6 @@ Map<String, String> ar = {
   'convert':'تحويل',
   'empty':'فارغ',
   'choose_image':'اختر مصدر الصورة',
-  'gallery':'معرش الصور',
+  'gallery':'معرض الصور',
   'camera':'الكاميرا'
 };

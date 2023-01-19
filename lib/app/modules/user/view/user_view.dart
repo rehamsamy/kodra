@@ -32,7 +32,7 @@ class _UserViewState extends State<UserView> {
   final fb = FirebaseDatabase.instance;
   String? imageUrl;
   bool _hasSpeech = false;
-  late VideoPlayerController _controller;
+   VideoPlayerController ?  _controller;
 
   String lastWords = "empty".tr;
 
@@ -46,28 +46,27 @@ class _UserViewState extends State<UserView> {
   @override
   void initState() {
     super.initState();
-    if (videoFile != null) {
-      _controller = VideoPlayerController.network(
-          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-        ..initialize().then((_) {
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-          setState(() {});
-        });
-    }
-    // initSpeechState();
+    // if (imageUrl == null) {
+    //   playVideo('');
+    // }
+      // initSpeechState();
+
+
   }
+
+
 
   playVideo(String url) {
     setState(() {
-      _controller = VideoPlayerController.network(
-          'https://firebasestorage.googleapis.com/v0/b/kodra-ee9a0.appspot.com/o/output.mp4?alt=media&token=eyJ0eXAiOiAiSldUIiwgImFsZyI6ICJIUzI1NiJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgInYiOiAwLCAiaWF0IjogMTY3NDEyMzU4MiwgImQiOiB7ImRlYnVnIjogZmFsc2UsICJhZG1pbiI6IGZhbHNlLCAiZW1haWwiOiAiYWJkdWxyaG1hbmVsc2F5ZWQ2QGdtYWlsLmNvbSIsICJwcm92aWRlciI6ICJwYXNzd29yZCJ9fQ.iVJDn-BOXMJsQZ_47Hzpj3NFHqUACAxX_7KzdSRBYG8')
+      _controller = VideoPlayerController.network(imageUrl??
+           'https://firebasestorage.googleapis.com/v0/b/kodra-ee9a0.appspot.com/o/output.mp4?alt=media&token=eyJ0eXAiOiAiSldUIiwgImFsZyI6ICJIUzI1NiJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgInYiOiAwLCAiaWF0IjogMTY3NDEyMzU4MiwgImQiOiB7ImRlYnVnIjogZmFsc2UsICJhZG1pbiI6IGZhbHNlLCAiZW1haWwiOiAiYWJkdWxyaG1hbmVsc2F5ZWQ2QGdtYWlsLmNvbSIsICJwcm92aWRlciI6ICJwYXNzd29yZCJ9fQ.iVJDn-BOXMJsQZ_47Hzpj3NFHqUACAxX_7KzdSRBYG8')
         ..initialize().then((_) {
-          _controller.play();
+          _controller!.play();
           setState(() {});
         });
 
-      _controller.initialize().then((value) {
-        _controller.setLooping(true);
+      _controller!.initialize().then((value) {
+        _controller!.setLooping(true);
         setState(() {});
       });
     });
@@ -122,9 +121,62 @@ class _UserViewState extends State<UserView> {
                       numberOfDots: 4,
                     ),
                   )
-                : videoFile == null
+            : imageUrl == null
                     ? const SizedBox()
-                    : VideoPlayer(_controller),
+                    : Column(
+                      children: [
+                        SizedBox(
+                          height: 180,
+                          width: Get.width,
+                          child: AspectRatio(
+                              aspectRatio: _controller!.value.aspectRatio,
+                              child: VideoPlayer(_controller!)),
+                        ),
+                        Container(
+                            child: VideoProgressIndicator(
+                                _controller!,
+                                allowScrubbing: true,
+                                colors:const VideoProgressColors(
+                                  backgroundColor: Colors.redAccent,
+                                  playedColor: Colors.green,
+                                  bufferedColor: Colors.purple,
+                                )
+                            )
+                        ),
+                        Container(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                  onPressed: (){
+                                    if(_controller!.value.isPlaying){
+                                      _controller!.pause();
+                                    }else{
+                                      _controller!.play();
+                                    }
+
+                                    setState(() {
+
+                                    });
+                                  },
+                                  icon:Icon(_controller!.value.isPlaying?Icons.pause:Icons.play_arrow)
+                              ),
+
+                              IconButton(
+                                  onPressed: (){
+                                    _controller!.seekTo(const Duration(seconds: 0));
+
+                                    setState(() {
+
+                                    });
+                                  },
+                                  icon:const Icon(Icons.stop)
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
             // : AppCashedImage(
             //     imageUrl: imageUrl ??
             //         'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
@@ -205,37 +257,47 @@ class _UserViewState extends State<UserView> {
                   backgroundColor: kPurpleColor,
                   // text: 'المستخدم',
                   onPressed: (AnimationController animationController) {
-                    animationController.forward();
-                    Get.log('vvvvvv  ' + wordController.text.toString());
-                    ref.child('wordToVideo').set({
-                      'isChange': true,
-                      'word': wordController.text,
-                      'videoUrl': ''
-                    }).then((value) {
-                      FirebaseDatabase.instance
-                          .reference()
-                          .child("wordToVideo")
-                          .once()
-                          .then((DatabaseEvent snapshot) {
-                        WordModel model =
+                    animationController.forward().then((value) {
+                      Get.log('vvvvvv  ' + wordController.text.toString());
+                      try {
+                        final ref = fb.reference();
+                        FirebaseDatabase.instance
+                            .reference()
+                            .child('wordToVideo').set({
+                          'isChange': true,
+                          'word': wordController.text,
+                          'videoUrl': ''
+                        }).whenComplete(() =>  Get.log('cccccc  ')).
+                        onError((error, stackTrace) => Get.log('cccccc  '+error.toString())).catchError((){Get.log('cccccc  ');}).then((value) {
+                          FirebaseDatabase.instance
+                              .reference()
+                              .child("wordToVideo").onValue.listen((DatabaseEvent snapshot) {
+                            WordModel model =
                             WordModel.fromJson(snapshot.snapshot.value);
-                        setState(() {
-                          isLoading = false;
-                          imageUrl = model.imageUrl;
-                        });
+                            setState(() {
+                              isLoading = false;
+                              imageUrl = model.imageUrl;
+                            });
 
-                        showSnackBar('تم رفع النص بنجاح');
-                        Get.log('url  ==>' + imageUrl.toString());
-                        getVideoFromFirebase();
-                        playVideo(imageUrl!);
-                        animationController.reverse();
-                      });
+                            showSnackBar('تم رفع النص بنجاح');
+                            Get.log('url  ==>' + imageUrl.toString());
+                            animationController.reverse();
+                            getVideoFromFirebase();
+                            playVideo(imageUrl!);
 
-                      setState(() {
-                        isLoading = true;
-                      });
-                    }).catchError((error, stackTrace) =>
-                        print('ddddd ${error.toString()}'));
+                          });
+
+                          setState(() {
+                            isLoading = true;
+                          });
+                        }).catchError((error, stackTrace) =>
+                            print('ddddd ${error.toString()}'));
+                      }catch(Err){
+                        Get.log('err     => '+Err.toString());
+                      }
+
+                    });
+
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

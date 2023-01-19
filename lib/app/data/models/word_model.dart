@@ -9,7 +9,7 @@ class WordModel {
 
   WordModel.fromJson(dynamic json) {
 isChange = json['isChange'];
-imageUrl = json['imageUrl'];
+imageUrl = json['videoUrl'];
     word = json['word'];
   }
   bool? isChange;
@@ -19,7 +19,7 @@ imageUrl = json['imageUrl'];
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['isChange'] = isChange;
-    map['imageUrl'] = imageUrl;
+    map['videoUrl'] = imageUrl;
     map['word'] = word;
     return map;
   }
