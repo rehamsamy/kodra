@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:qodra/app/data/models/word_model.dart';
 import 'package:qodra/app/data/remote_data_source/word_to_image_api.dart';
@@ -15,6 +17,9 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
+
 class UserView extends StatefulWidget {
   const UserView({Key? key}) : super(key: key);
 
@@ -27,6 +32,7 @@ class _UserViewState extends State<UserView> {
   final fb = FirebaseDatabase.instance;
   String? imageUrl;
   bool _hasSpeech = false;
+  late VideoPlayerController _controller;
 
   String lastWords = "empty".tr;
 
@@ -35,11 +41,36 @@ class _UserViewState extends State<UserView> {
   String lastStatus = "";
   bool isLoading = false;
   final SpeechToText speech = SpeechToText();
+  File? videoFile;
 
   @override
   void initState() {
     super.initState();
+    if (videoFile != null) {
+      _controller = VideoPlayerController.network(
+          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+        ..initialize().then((_) {
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          setState(() {});
+        });
+    }
     // initSpeechState();
+  }
+
+  playVideo(String url) {
+    setState(() {
+      _controller = VideoPlayerController.network(
+          'https://firebasestorage.googleapis.com/v0/b/kodra-ee9a0.appspot.com/o/output.mp4?alt=media&token=eyJ0eXAiOiAiSldUIiwgImFsZyI6ICJIUzI1NiJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgInYiOiAwLCAiaWF0IjogMTY3NDEyMzU4MiwgImQiOiB7ImRlYnVnIjogZmFsc2UsICJhZG1pbiI6IGZhbHNlLCAiZW1haWwiOiAiYWJkdWxyaG1hbmVsc2F5ZWQ2QGdtYWlsLmNvbSIsICJwcm92aWRlciI6ICJwYXNzd29yZCJ9fQ.iVJDn-BOXMJsQZ_47Hzpj3NFHqUACAxX_7KzdSRBYG8')
+        ..initialize().then((_) {
+          _controller.play();
+          setState(() {});
+        });
+
+      _controller.initialize().then((value) {
+        _controller.setLooping(true);
+        setState(() {});
+      });
+    });
   }
 
   Future<void> initSpeechState() async {
@@ -54,10 +85,11 @@ class _UserViewState extends State<UserView> {
 
   @override
   Widget build(BuildContext context) {
+    // playVideo('');
     final ref = fb.reference();
     return Scaffold(
       appBar: AppBar(
-        title:  AppText(
+        title: AppText(
           'user'.tr,
           fontSize: 22,
           color: Colors.black,
@@ -70,7 +102,7 @@ class _UserViewState extends State<UserView> {
               onPressed: () {
                 Get.off(() => const HomeView());
               },
-              icon:  Icon(
+              icon: Icon(
                 Icons.home,
                 color: kPurpleColor,
                 size: 35,
@@ -90,11 +122,14 @@ class _UserViewState extends State<UserView> {
                       numberOfDots: 4,
                     ),
                   )
-                : AppCashedImage(
-                    imageUrl: imageUrl ??
-                        'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
-                    fit: BoxFit.fill,
-                  ),
+                : videoFile == null
+                    ? const SizedBox()
+                    : VideoPlayer(_controller),
+            // : AppCashedImage(
+            //     imageUrl: imageUrl ??
+            //         'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
+            //     fit: BoxFit.fill,
+            //   ),
           )),
           Container(
             color: kGreyColor,
@@ -104,14 +139,14 @@ class _UserViewState extends State<UserView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Padding(
-                  padding:  const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       Visibility(
-                   visible:false,
+                        visible: false,
                         child: IconButton(
                             onPressed: startListening,
-                            icon:  Icon(
+                            icon: Icon(
                               Icons.keyboard_voice,
                               size: 35,
                               color: kPurpleColor,
@@ -127,7 +162,7 @@ class _UserViewState extends State<UserView> {
                           text: 'write_here'.tr,
                           validateEmptyText: 'empty'.tr,
                           radius: 10,
-                          hintText:'write_here'.tr,
+                          hintText: 'write_here'.tr,
                         ),
                       ),
                       // IconButton(
@@ -172,24 +207,14 @@ class _UserViewState extends State<UserView> {
                   onPressed: (AnimationController animationController) {
                     animationController.forward();
                     Get.log('vvvvvv  ' + wordController.text.toString());
-                    ref
-                        .child('wordToImage')
-                        .set({
-                          'isChange': true,
-                          'word': wordController.text,
-                          'imageUrl':
-                              'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
-                        })
-                        .then((value) => print('yes'))
-                        .onError((error, stackTrace) =>
-                            print('ddddd ${error.toString()}'));
-                    setState(() {
-                      isLoading = true;
-                    });
-                    Future.delayed(const Duration(seconds: 5)).then((value) {
+                    ref.child('wordToVideo').set({
+                      'isChange': true,
+                      'word': wordController.text,
+                      'videoUrl': ''
+                    }).then((value) {
                       FirebaseDatabase.instance
                           .reference()
-                          .child("wordToImage")
+                          .child("wordToVideo")
                           .once()
                           .then((DatabaseEvent snapshot) {
                         WordModel model =
@@ -200,13 +225,21 @@ class _UserViewState extends State<UserView> {
                         });
 
                         showSnackBar('تم رفع النص بنجاح');
+                        Get.log('url  ==>' + imageUrl.toString());
+                        getVideoFromFirebase();
+                        playVideo(imageUrl!);
                         animationController.reverse();
                       });
-                    });
+
+                      setState(() {
+                        isLoading = true;
+                      });
+                    }).catchError((error, stackTrace) =>
+                        print('ddddd ${error.toString()}'));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children:  [
+                    children: [
                       AppText(
                         'convert'.tr,
                         color: Colors.white,
@@ -279,7 +312,7 @@ class _UserViewState extends State<UserView> {
                 child: AppText(
               lastWords,
               fontSize: 22,
-              color: LocalStorage.isDArk?Colors.black:Colors.white,
+              color: LocalStorage.isDArk ? Colors.black : Colors.white,
               fontWeight: FontWeight.bold,
             )),
           )),
@@ -344,5 +377,9 @@ class _UserViewState extends State<UserView> {
             return const SizedBox();
           }
         });
+  }
+
+  void getVideoFromFirebase() async {
+    // await launchUrl(Uri.parse('https://firebasestorage.googleapis.com/v0/b/kodra-ee9a0.appspot.com/o/videos?alt=media&token=118e78b7-7975-4ca8-9106-c56dd713b5b6'));
   }
 }

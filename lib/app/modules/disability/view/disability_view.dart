@@ -19,14 +19,12 @@ import 'package:video_player/video_player.dart';
 
 class DisabilityView extends StatefulWidget {
   const DisabilityView({Key? key}) : super(key: key);
-
   @override
   State<DisabilityView> createState() => _DisabilityViewState();
 }
 
 class _DisabilityViewState extends State<DisabilityView> {
   FirebaseStorage _storage = FirebaseStorage.instance;
-
   late VideoPlayerController _controller;
   final fb = FirebaseDatabase.instance;
   ImagePicker videoPicker = ImagePicker();
@@ -400,7 +398,6 @@ class _DisabilityViewState extends State<DisabilityView> {
       );
     }
   }
-
   Future<void> _launchUrl() async {
     if (!await launchUrl(_url!)) {
       throw 'Could not launch $_url';
