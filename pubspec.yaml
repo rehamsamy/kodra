@@ -94,6 +94,7 @@ dependencies:
   video_player: ^2.4.7
   flutter_phoenix: ^1.1.0
   flutter_email_sender: ^5.2.0
+  youtube_player_flutter: ^8.1.2
 
 
 

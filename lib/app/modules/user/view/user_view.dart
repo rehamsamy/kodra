@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qodra/app/data/models/word_model.dart';
 import 'package:qodra/app/data/remote_data_source/word_to_image_api.dart';
-import 'package:qodra/app/data/storage/local_storage.dart';
 import 'package:qodra/app/modules/home/home_view.dart';
 import 'package:get/get.dart';
 import 'package:qodra/app/shared/app_buttons/app_progress_button.dart';
@@ -19,6 +18,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class UserView extends StatefulWidget {
   const UserView({Key? key}) : super(key: key);
@@ -43,6 +43,14 @@ class _UserViewState extends State<UserView> {
   final SpeechToText speech = SpeechToText();
   File? videoFile;
 
+  YoutubePlayerController _controller1 = YoutubePlayerController(
+    initialVideoId: 'iLnmTe5Q2Qw',
+    flags: YoutubePlayerFlags(
+      autoPlay: true,
+      mute: true,
+    ),
+  );
+
   @override
   void initState() {
     super.initState();
@@ -58,9 +66,15 @@ class _UserViewState extends State<UserView> {
 
   playVideo(String url) {
     setState(() {
-      _controller = VideoPlayerController.network(imageUrl??
+      Get.log('url        =>'+url);
+      // _controller!.addListener(() {
+      //   _controller!.setLooping(true);
+      //   setState(() {});
+      // });
+      _controller = VideoPlayerController.network(url??
            'https://firebasestorage.googleapis.com/v0/b/kodra-ee9a0.appspot.com/o/output.mp4?alt=media&token=eyJ0eXAiOiAiSldUIiwgImFsZyI6ICJIUzI1NiJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgInYiOiAwLCAiaWF0IjogMTY3NDEyMzU4MiwgImQiOiB7ImRlYnVnIjogZmFsc2UsICJhZG1pbiI6IGZhbHNlLCAiZW1haWwiOiAiYWJkdWxyaG1hbmVsc2F5ZWQ2QGdtYWlsLmNvbSIsICJwcm92aWRlciI6ICJwYXNzd29yZCJ9fQ.iVJDn-BOXMJsQZ_47Hzpj3NFHqUACAxX_7KzdSRBYG8')
         ..initialize().then((_) {
+          setState(() {});
           _controller!.play();
           setState(() {});
         });
@@ -70,6 +84,7 @@ class _UserViewState extends State<UserView> {
         setState(() {});
       });
     });
+
   }
 
   Future<void> initSpeechState() async {
@@ -108,277 +123,304 @@ class _UserViewState extends State<UserView> {
               ))
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-              // flex: 5,
-              child: SizedBox(
-            width: 250,
-            child: isLoading
-                ? Center(
-                    child: JumpingDotsProgressIndicator(
-                      fontSize: 60.0,
-                      numberOfDots: 4,
-                    ),
-                  )
-            : imageUrl == null
-                    ? const SizedBox()
-                    : Column(
-                      children: [
-                        SizedBox(
-                          height: 180,
-                          width: Get.width,
-                          child: AspectRatio(
-                              aspectRatio: _controller!.value.aspectRatio,
-                              child: VideoPlayer(_controller!)),
-                        ),
-                        Container(
-                            child: VideoProgressIndicator(
-                                _controller!,
-                                allowScrubbing: true,
-                                colors:const VideoProgressColors(
-                                  backgroundColor: Colors.redAccent,
-                                  playedColor: Colors.green,
-                                  bufferedColor: Colors.purple,
-                                )
-                            )
-                        ),
-                        Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                  onPressed: (){
-                                    if(_controller!.value.isPlaying){
-                                      _controller!.pause();
-                                    }else{
-                                      _controller!.play();
-                                    }
-
-                                    setState(() {
-
-                                    });
-                                  },
-                                  icon:Icon(_controller!.value.isPlaying?Icons.pause:Icons.play_arrow)
-                              ),
-
-                              IconButton(
-                                  onPressed: (){
-                                    _controller!.seekTo(const Duration(seconds: 0));
-
-                                    setState(() {
-
-                                    });
-                                  },
-                                  icon:const Icon(Icons.stop)
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: Get.height*0.55,
+              child: isLoading
+              ? Center(
+                  child: JumpingDotsProgressIndicator(
+                    fontSize: 60.0,
+                    numberOfDots: 4,
+                  ),
+                )
+              : imageUrl == null
+                  ? const SizedBox()
+                  : Column(
+                    children: [
+                      SizedBox(
+                        height: Get.height*0.33,
+                        width: Get.width,
+                        child: AspectRatio(
+                            aspectRatio: _controller!.value.aspectRatio,
+                            child: VideoPlayer(_controller!)),
+                      ),
+                      Container(
+                          child: VideoProgressIndicator(
+                              _controller!,
+                              allowScrubbing: true,
+                              colors:const VideoProgressColors(
+                                backgroundColor: Colors.redAccent,
+                                playedColor: Colors.green,
+                                bufferedColor: Colors.purple,
                               )
-                            ],
+                          )
+                      ),
+                      Container(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: (){
+                                  if(_controller!.value.isPlaying){
+                                    _controller!.pause();
+                                  }else{
+                                    _controller!.play();
+                                  }
+                                  setState(() {
+                                  });
+                                },
+                                icon:Icon(_controller!.value.isPlaying?Icons.pause:Icons.play_arrow)
+                            ),
+
+                            IconButton(
+                                onPressed: (){
+                                  _controller!.seekTo(const Duration(seconds: 0));
+
+                                  setState(() {
+
+                                  });
+                                },
+                                icon:const Icon(Icons.stop)
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+              // : AppCashedImage(
+              //     imageUrl: imageUrl ??
+              //         'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
+              //     fit: BoxFit.fill,
+              //   ),
+            ),
+            Container(
+              color: kGreyColor,
+              height:   Get.height*0.4,
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        Visibility(
+                          visible: false,
+                          child: IconButton(
+                              onPressed: startListening,
+                              icon: Icon(
+                                Icons.keyboard_voice,
+                                size: 35,
+                                color: kPurpleColor,
+                              )),
+                        ),
+                        Expanded(
+                          child: CustomTextFormField(
+                            backgroundColor: Colors.grey,
+                            verticalPadding: 0,
+                            horizontalPadding: 0,
+                            keyboardType: TextInputType.text,
+                            controller: wordController,
+                            text: 'write_here'.tr,
+                            validateEmptyText: 'empty'.tr,
+                            radius: 10,
+                            hintText: 'write_here'.tr,
                           ),
-                        )
+                        ),
+                        // IconButton(
+                        //   icon: const Icon(
+                        //     Icons.perm_identity, size: 35, color: Colors.black,),
+                        //   onPressed: () {
+                        //     ref.child('wordToImage').set(
+                        //         {
+                        //           'isChange': true,
+                        //           'word': wordController.text,
+                        //           'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
+                        //         });
+                        //       setState(() {
+                        //         isLoading=true;
+                        //       });
+                        //       Future.delayed(const Duration(seconds: 5)).then((value) {
+                        //         FirebaseDatabase.instance.reference().child(
+                        //             "wordToImage").once().then((
+                        //             DatabaseEvent snapshot) {
+                        //           WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
+                        //           setState(() {
+                        //             isLoading=false;
+                        //             imageUrl=model.imageUrl;
+                        //           });
+                        //
+                        //         });
+                        //       });
+                        //
+                        //   },
+                        // )
                       ],
                     ),
-            // : AppCashedImage(
-            //     imageUrl: imageUrl ??
-            //         'https://tse1.mm.bing.net/th?id=OIP.fO70gw_g_kI00e1gQA-yJgHaE7&pid=Api&P=0',
-            //     fit: BoxFit.fill,
-            //   ),
-          )),
-          Container(
-            color: kGreyColor,
-            height: 150,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Visibility(
-                        visible: false,
-                        child: IconButton(
-                            onPressed: startListening,
-                            icon: Icon(
-                              Icons.keyboard_voice,
-                              size: 35,
-                              color: kPurpleColor,
-                            )),
-                      ),
-                      Expanded(
-                        child: CustomTextFormField(
-                          backgroundColor: Colors.grey,
-                          verticalPadding: 0,
-                          horizontalPadding: 0,
-                          keyboardType: TextInputType.text,
-                          controller: wordController,
-                          text: 'write_here'.tr,
-                          validateEmptyText: 'empty'.tr,
-                          radius: 10,
-                          hintText: 'write_here'.tr,
-                        ),
-                      ),
-                      // IconButton(
-                      //   icon: const Icon(
-                      //     Icons.perm_identity, size: 35, color: Colors.black,),
-                      //   onPressed: () {
-                      //     ref.child('wordToImage').set(
-                      //         {
-                      //           'isChange': true,
-                      //           'word': wordController.text,
-                      //           'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
-                      //         });
-                      //       setState(() {
-                      //         isLoading=true;
-                      //       });
-                      //       Future.delayed(const Duration(seconds: 5)).then((value) {
-                      //         FirebaseDatabase.instance.reference().child(
-                      //             "wordToImage").once().then((
-                      //             DatabaseEvent snapshot) {
-                      //           WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
-                      //           setState(() {
-                      //             isLoading=false;
-                      //             imageUrl=model.imageUrl;
-                      //           });
-                      //
-                      //         });
-                      //       });
-                      //
-                      //   },
-                      // )
-                    ],
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                AppProgressButton(
-                  isBordered: true,
-                  textColor: Colors.white,
-                  backgroundColor: kPurpleColor,
-                  // text: 'المستخدم',
-                  onPressed: (AnimationController animationController) {
-                    animationController.forward().then((value) {
-                      Get.log('vvvvvv  ' + wordController.text.toString());
-                      try {
-                        final ref = fb.reference();
-                        FirebaseDatabase.instance
-                            .reference()
-                            .child('wordToVideo').set({
-                          'isChange': true,
-                          'word': wordController.text,
-                          'videoUrl': ''
-                        }).whenComplete(() =>  Get.log('cccccc  ')).
-                        onError((error, stackTrace) => Get.log('cccccc  '+error.toString())).catchError((){Get.log('cccccc  ');}).then((value) {
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  AppProgressButton(
+                    isBordered: true,
+                    textColor: Colors.white,
+                    backgroundColor: kPurpleColor,
+                    // text: 'المستخدم',
+                    onPressed: (AnimationController animationController) {
+                      animationController.forward().then((value) {
+                        Get.log('vvvvvv  ' + wordController.text.toString());
+                        try {
+                           fb.reference();
                           FirebaseDatabase.instance
                               .reference()
-                              .child("wordToVideo").onValue.listen((DatabaseEvent snapshot) {
-                            WordModel model =
-                            WordModel.fromJson(snapshot.snapshot.value);
-                            setState(() {
-                              isLoading = false;
-                              imageUrl = model.imageUrl;
+                              .child('wordToVideo').set({
+                            'isChange': true,
+                            'word': wordController.text,
+                            'videoUrl': ''
+                          }).then((val){
+                            Future.delayed(Duration(seconds: 5)).then((value){
+                              FirebaseDatabase.instance
+                                  .reference()
+                                  .child("wordToVideo").onValue.listen((DatabaseEvent snapshot) {
+                                Get.log('imge url  ===>'+snapshot.snapshot.value.toString());
+                                WordModel model =
+                                WordModel.fromJson(snapshot.snapshot.value);
+                                  // setState(() {
+                                    isLoading = false;
+                                Get.log('imge url  1===>'+model.imageUrl.toString());
+
+                                    Get.log('imge url  10==>'+imageUrl.toString());
+                                    animationController.reverse();
+                                     setState(() {
+                                       imageUrl = model.imageUrl;
+
+                                     });
+                                playVideo(imageUrl!);
+                                  // });
+
+
+                                // if(model.imageUrl==null&&model.imageUrl !='') {
+                                //   // setState(() {
+                                //     isLoading = false;
+                                //     // imageUrl = null;
+                                //     imageUrl = model.imageUrl;
+                                //     playVideo(imageUrl!);
+                                //     animationController.reverse();
+                                //   // });
+                                // }
+                                // if(imageUrl!=null&&imageUrl !=''){
+                                //   // showSnackBar('تم رفع النص بنجاح');
+                                //   Get.log('url  ==>' + imageUrl.toString());
+                                //   getVideoFromFirebase();
+                                //   playVideo(imageUrl!);
+                                // }else{
+                                //   return;
+                                // }
+
+                              });
+                              Get.log('imge url  2===>'+imageUrl.toString());
+                               // playVideo(imageUrl!);
+                              setState(() {
+                                if(imageUrl!=null&&imageUrl!.isNotEmpty){
+                                  Get.log('imge url  2===>'+imageUrl.toString());
+                                   // playVideo(imageUrl!);
+                                }
+                                isLoading = true;
+                              });
                             });
 
-                            showSnackBar('تم رفع النص بنجاح');
-                            Get.log('url  ==>' + imageUrl.toString());
-                            animationController.reverse();
-                            getVideoFromFirebase();
-                            playVideo(imageUrl!);
+                          }).catchError((error, stackTrace) =>
+                              print('ddddd ${error.toString()}'));
 
-                          });
 
-                          setState(() {
-                            isLoading = true;
-                          });
-                        }).catchError((error, stackTrace) =>
-                            print('ddddd ${error.toString()}'));
-                      }catch(Err){
-                        Get.log('err     => '+Err.toString());
-                      }
+                        }catch(Err){
+                          Get.log('err     => '+Err.toString());
+                        }
 
-                    });
+                      });
 
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      AppText(
-                        'convert'.tr,
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      const Icon(Icons.forward, size: 20, color: Colors.white),
-                    ],
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        AppText(
+                          'convert'.tr,
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Icon(Icons.forward, size: 20, color: Colors.white),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          // Expanded(flex:1,child:  AppProgressButton(
-          //   isBordered: true,
-          //   textColor: Colors.white,
-          //   backgroundColor: kPurpleColor,
-          //   // text: 'المستخدم',
-          //   onPressed: (AnimationController animationController) {
-          //     animationController.forward();
-          //
-          //     ref.child('wordToImage').set(
-          //         {
-          //           'isChange': true,
-          //           'word': wordController.text,
-          //           'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
-          //         });
-          //     setState(() {
-          //       isLoading=true;
-          //     });
-          //     Future.delayed(const Duration(seconds: 5)).then((value) {
-          //       FirebaseDatabase.instance.reference().child(
-          //           "wordToImage").once().then((
-          //           DatabaseEvent snapshot) {
-          //         WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
-          //         setState(() {
-          //           isLoading=false;
-          //           imageUrl=model.imageUrl;
-          //         });
-          //
-          //         showSnackBar('تم رفع النص بنجاح');
-          //         animationController.reverse();
-          //
-          //       });
-          //     });
-          //
-          //   },
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     children: const [
-          //       AppText(
-          //         'تحويل',
-          //         color: Colors.white,
-          //         fontSize: 18,
-          //       ),
-          //       SizedBox(
-          //         width: 15,
-          //       ),
-          //       Icon(Icons.forward, size: 20, color: Colors.white),
-          //     ],
-          //   ),
-          // ),),
-          Expanded(
-              // flex:4,
-              child: Container(
-            color: kBackgroundDarkColor,
-            child: Center(
-                child: AppText(
-              lastWords,
-              fontSize: 22,
-              color: LocalStorage.isDArk ? Colors.black : Colors.white,
-              fontWeight: FontWeight.bold,
-            )),
-          )),
-        ],
+            // Expanded(flex:1,child:  AppProgressButton(
+            //   isBordered: true,
+            //   textColor: Colors.white,
+            //   backgroundColor: kPurpleColor,
+            //   // text: 'المستخدم',
+            //   onPressed: (AnimationController animationController) {
+            //     animationController.forward();
+            //
+            //     ref.child('wordToImage').set(
+            //         {
+            //           'isChange': true,
+            //           'word': wordController.text,
+            //           'imageUrl': 'https://s.yimg.com/ny/api/res/1.2/ilPiGpc1rMdofynEhDwdLw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTUyOTtjZj13ZWJw/https://media.zenfs.com/en/time_72/79bd0de37aa949e77a6dc7b6e5036760'
+            //         });
+            //     setState(() {
+            //       isLoading=true;
+            //     });
+            //     Future.delayed(const Duration(seconds: 5)).then((value) {
+            //       FirebaseDatabase.instance.reference().child(
+            //           "wordToImage").once().then((
+            //           DatabaseEvent snapshot) {
+            //         WordModel  model=  WordModel.fromJson(snapshot.snapshot.value);
+            //         setState(() {
+            //           isLoading=false;
+            //           imageUrl=model.imageUrl;
+            //         });
+            //
+            //         showSnackBar('تم رفع النص بنجاح');
+            //         animationController.reverse();
+            //
+            //       });
+            //     });
+            //
+            //   },
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: const [
+            //       AppText(
+            //         'تحويل',
+            //         color: Colors.white,
+            //         fontSize: 18,
+            //       ),
+            //       SizedBox(
+            //         width: 15,
+            //       ),
+            //       Icon(Icons.forward, size: 20, color: Colors.white),
+            //     ],
+            //   ),
+            // ),),
+            // Container(
+            //   color: kBackgroundDarkColor,
+            //   child: Center(
+            //   child: AppText(
+            // lastWords,
+            // fontSize: 22,
+            // color: LocalStorage.isDArk ? Colors.black : Colors.white,
+            // fontWeight: FontWeight.bold,
+            //   )),
+            // ),
+          ],
+        ),
       ),
     );
   }
