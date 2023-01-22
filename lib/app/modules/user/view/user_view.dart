@@ -18,7 +18,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class UserView extends StatefulWidget {
   const UserView({Key? key}) : super(key: key);
@@ -43,48 +43,31 @@ class _UserViewState extends State<UserView> {
   final SpeechToText speech = SpeechToText();
   File? videoFile;
 
-  YoutubePlayerController _controller1 = YoutubePlayerController(
-    initialVideoId: 'iLnmTe5Q2Qw',
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      mute: true,
-    ),
-  );
+  // YoutubePlayerController _controller1 = YoutubePlayerController(
+  //   initialVideoId: 'iLnmTe5Q2Qw',
+  //   flags: YoutubePlayerFlags(
+  //     autoPlay: true,
+  //     mute: true,
+  //   ),
+  // );
 
   @override
   void initState() {
+    //https://www.youtube.com/shorts/GytiHdv3xso
     super.initState();
-    // if (imageUrl == null) {
-    //   playVideo('');
-    // }
-      // initSpeechState();
-
-
-  }
-
-
-
-  playVideo(String url) {
-    setState(() {
-      Get.log('url        =>'+url);
-      // _controller!.addListener(() {
-      //   _controller!.setLooping(true);
-      //   setState(() {});
-      // });
-      _controller = VideoPlayerController.network(url??
-           'https://firebasestorage.googleapis.com/v0/b/kodra-ee9a0.appspot.com/o/output.mp4?alt=media&token=eyJ0eXAiOiAiSldUIiwgImFsZyI6ICJIUzI1NiJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgInYiOiAwLCAiaWF0IjogMTY3NDEyMzU4MiwgImQiOiB7ImRlYnVnIjogZmFsc2UsICJhZG1pbiI6IGZhbHNlLCAiZW1haWwiOiAiYWJkdWxyaG1hbmVsc2F5ZWQ2QGdtYWlsLmNvbSIsICJwcm92aWRlciI6ICJwYXNzd29yZCJ9fQ.iVJDn-BOXMJsQZ_47Hzpj3NFHqUACAxX_7KzdSRBYG8')
+    if (imageUrl != null) {
+      _controller = VideoPlayerController.network(
+          'https://www.pexels.com/video/close-up-view-of-slices-of-cantaloupe-7258427/')
         ..initialize().then((_) {
-          setState(() {});
-          _controller!.play();
+          _controller!.setLooping(true);
           setState(() {});
         });
+    }
 
-      _controller!.initialize().then((value) {
-        _controller!.setLooping(true);
-        setState(() {});
-      });
-    });
-
+  }
+  playVideo(String url) {
+    _controller!.play();
+    setState(() {});
   }
 
   Future<void> initSpeechState() async {
@@ -283,21 +266,23 @@ class _UserViewState extends State<UserView> {
                             Future.delayed(Duration(seconds: 5)).then((value){
                               FirebaseDatabase.instance
                                   .reference()
-                                  .child("wordToVideo").onValue.listen((DatabaseEvent snapshot) {
+                                  .child("wordToVideo").onChildChanged.listen((DatabaseEvent snapshot) {
                                 Get.log('imge url  ===>'+snapshot.snapshot.value.toString());
                                 WordModel model =
                                 WordModel.fromJson(snapshot.snapshot.value);
                                   // setState(() {
-                                    isLoading = false;
-                                Get.log('imge url  1===>'+model.imageUrl.toString());
 
+                                Get.log('imge url  1===>'+model.imageUrl.toString());
                                     Get.log('imge url  10==>'+imageUrl.toString());
                                     animationController.reverse();
                                      setState(() {
                                        imageUrl = model.imageUrl;
-
+                                       isLoading = false;
                                      });
                                 playVideo(imageUrl!);
+                                     if(imageUrl !=null){
+
+                                     }
                                   // });
 
 
